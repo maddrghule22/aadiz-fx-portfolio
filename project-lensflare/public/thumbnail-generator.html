@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Thumbnail Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .video-container { margin: 20px 0; border: 1px solid #ccc; padding: 10px; }
+        video { width: 400px; height: 225px; }
+        canvas { border: 1px solid #ddd; }
+        button { padding: 10px 20px; margin: 10px 0; background: #007cba; color: white; border: none; cursor: pointer; }
+        button:hover { background: #005a87; }
+    </style>
+</head>
+<body>
+    <h1>Video Thumbnail Generator</h1>
+    <p>This tool will help you create thumbnails from your videos.</p>
+    
+    <div id="videos-container">
+        <!-- Videos will be loaded here -->
+    </div>
+
+    <script>
+        const videos = [
+            { name: 'bmw-x1', file: 'bmw-x1.mp4', title: 'BMW X1 Commercial' },
+            { name: 'ducati-xdiavel', file: 'ducati-xdiavel.mp4', title: 'Ducati Xdiavel Showcase' },
+            { name: 'fashion-edit', file: 'fashion-edit.mp4', title: 'Fashion Editorial' },
+            { name: 'fortuner', file: 'fortuner.mp4', title: 'Toyota Fortuner Campaign' },
+            { name: 'ktm-2', file: 'ktm-2.mp4', title: 'KTM Performance Video' },
+            { name: 'yamaha-fz', file: 'yamaha-fz.mp4', title: 'Yamaha FZ Promotional' },
+            { name: 'zen', file: 'zen.mp4', title: 'Zen Creative Project' }
+        ];
+
+        function createVideoContainer(video) {
+            const container = document.createElement('div');
+            container.className = 'video-container';
+            
+            container.innerHTML = `
+                <h3>${video.title}</h3>
+                <video id="video-${video.name}" controls>
+                    <source src="/videos/${video.file}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <br>
+                <button onclick="generateThumbnail('${video.name}')">Generate Thumbnail</button>
+                <br>
+                <canvas id="canvas-${video.name}" width="1200" height="675" style="display:none;"></canvas>
+            `;
+            
+            return container;
+        }
+
+        function generateThumbnail(videoName) {
+            const video = document.getElementById(`video-${videoName}`);
+            const canvas = document.getElementById(`canvas-${videoName}`);
+            const ctx = canvas.getContext('2d');
+            
+            // Set video to 5 seconds for thumbnail
+            video.currentTime = 5;
+            
+            video.addEventListener('seeked', function() {
+                // Draw the video frame to canvas
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Convert canvas to blob and download
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${videoName}-thumbnail.jpg`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    alert(`Thumbnail generated for ${videoName}!`);
+                }, 'image/jpeg', 0.9);
+            }, { once: true });
+        }
+
+        // Load all videos
+        const container = document.getElementById('videos-container');
+        videos.forEach(video => {
+            container.appendChild(createVideoContainer(video));
+        });
+    </script>
+</body>
+</html>
