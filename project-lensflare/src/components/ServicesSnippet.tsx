@@ -1,6 +1,7 @@
 'use client'
 
 import { Film, Camera, Edit, Zap } from 'lucide-react'
+import Link from 'next/link'
 
 interface Service {
   id: string;
@@ -94,13 +95,13 @@ export default function ServicesSnippet({ services = [] }: ServicesSnippetProps)
 
         {/* CTA */}
         <div className="text-center mt-12 animate-on-scroll">
-          <a
+          <Link
             href="/services"
             className="btn-ghost inline-flex items-center space-x-2 text-lg"
           >
             <span>Explore All Services</span>
             <span>→</span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

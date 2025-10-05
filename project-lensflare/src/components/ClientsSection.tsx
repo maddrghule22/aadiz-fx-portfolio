@@ -49,6 +49,24 @@ const defaultClients = [
     name: 'Lamborghini',
     logo: '/images/clients/lamborghini.svg',
     website: 'https://www.lamborghini.com'
+  },
+  {
+    id: '7',
+    name: 'KTM',
+    logo: '/images/clients/ktm.svg',
+    website: 'https://www.ktm.com'
+  },
+  {
+    id: '8',
+    name: 'Yamaha',
+    logo: '/images/clients/yamaha.svg',
+    website: 'https://www.yamaha-motor.com'
+  },
+  {
+    id: '9',
+    name: 'Fashion Studio',
+    logo: '/images/clients/fashion.svg',
+    website: '#'
   }
 ]
 

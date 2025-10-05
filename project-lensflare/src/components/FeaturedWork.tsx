@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Play, ExternalLink } from 'lucide-react'
@@ -24,6 +24,7 @@ interface FeaturedWorkProps {
 
 export default function FeaturedWork({ projects = [] }: FeaturedWorkProps) {
   const [hoveredProject, setHoveredProject] = useState<string | null>(null)
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0)
   
   // Get featured projects or use provided projects
   const featuredProjects = projects.length > 0 
@@ -79,6 +80,31 @@ export default function FeaturedWork({ projects = [] }: FeaturedWorkProps) {
         }
       ];
 
+  // Autoplay functionality
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Only auto-advance if no project is being hovered
+      if (hoveredProject === null) {
+        setActiveProjectIndex((prevIndex) => 
+          prevIndex === featuredProjects.length - 1 ? 0 : prevIndex + 1
+        );
+      }
+    }, 3000); // Change project every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [hoveredProject, featuredProjects.length]);
+
+  // Update active project when hovered
+  const handleProjectHover = (projectId: string, index: number) => {
+    setHoveredProject(projectId);
+    setActiveProjectIndex(index);
+  };
+
+  // Reset to auto when mouse leaves
+  const handleMouseLeave = () => {
+    setHoveredProject(null);
+  };
+
   return (
     <section id="featured-work" className="section-spacing bg-section-gradient">
       <div className="container-padding max-w-7xl mx-auto">
@@ -98,9 +124,11 @@ export default function FeaturedWork({ projects = [] }: FeaturedWorkProps) {
           {featuredProjects.map((project, index) => (
             <div
               key={project.id}
-              className="group relative overflow-hidden rounded-xl bg-primary-800 hover-lift animate-on-scroll"
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
+              className={`group relative overflow-hidden rounded-xl bg-primary-800 hover-lift animate-on-scroll ${
+                activeProjectIndex === index ? 'ring-2 ring-accent-500' : ''
+              }`}
+              onMouseEnter={() => handleProjectHover(project.id, index)}
+              onMouseLeave={handleMouseLeave}
               style={{ animationDelay: `${index * 150}ms` }}
             >
               {/* Project Thumbnail */}
@@ -135,6 +163,24 @@ export default function FeaturedWork({ projects = [] }: FeaturedWorkProps) {
                     <span className="bg-primary-800/80 backdrop-blur-sm text-neutral-300 px-3 py-1 rounded-full text-sm font-medium">
                       {project.duration}
                     </span>
+                  </div>
+                )}
+
+                {/* Autoplay Indicator */}
+                {activeProjectIndex === index && (
+                  <div className="absolute bottom-4 right-4">
+                    <div className="flex space-x-1">
+                      {featuredProjects.map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-2 h-2 rounded-full ${
+                            i === activeProjectIndex
+                              ? 'bg-accent-500'
+                              : 'bg-neutral-400'
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>

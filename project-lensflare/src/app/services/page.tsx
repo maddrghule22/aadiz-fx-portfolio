@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function ServicesPage() {
   const fadeInUp = {
@@ -212,9 +213,9 @@ export default function ServicesPage() {
           <motion.div 
             variants={fadeInUp}
           >
-            <a href="/contact" className="btn-primary">
+            <Link href="/contact" className="btn-primary">
               Get in Touch
-            </a>
+            </Link>
           </motion.div>
         </motion.section>
       </div>

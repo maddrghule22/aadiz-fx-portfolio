@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function AboutPage() {
   const fadeInUp = {
@@ -286,12 +287,12 @@ export default function AboutPage() {
             variants={fadeInUp}
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <a href="/contact" className="btn-primary">
+            <Link href="/contact" className="btn-primary">
               Get in Touch
-            </a>
-            <a href="/work" className="btn-secondary">
+            </Link>
+            <Link href="/work" className="btn-secondary">
               View My Work
-            </a>
+            </Link>
           </motion.div>
         </motion.section>
       </div>

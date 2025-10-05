@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useParams } from 'next/navigation'
+import Link from 'next/link'
 
 export default function WorkItemPage() {
   const params = useParams()
@@ -53,16 +54,17 @@ export default function WorkItemPage() {
           variants={staggerContainer}
           className="mb-8"
         >
-          <motion.a
+          <motion.div
             variants={fadeInUp}
-            href="/work"
             className="inline-flex items-center text-accent-500 hover:text-accent-400 font-medium transition-colors duration-300"
           >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-            </svg>
-            Back to Projects
-          </motion.a>
+            <Link href="/work" className="inline-flex items-center">
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+              </svg>
+              Back to Projects
+            </Link>
+          </motion.div>
         </motion.div>
 
         {/* Project Header */}
@@ -258,9 +260,9 @@ export default function WorkItemPage() {
           <motion.div 
             variants={fadeInUp}
           >
-            <a href="/contact" className="btn-primary">
+            <Link href="/contact" className="btn-primary">
               Get in Touch
-            </a>
+            </Link>
           </motion.div>
         </motion.section>
       </div>

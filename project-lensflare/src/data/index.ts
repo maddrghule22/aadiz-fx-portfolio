@@ -152,6 +152,9 @@ export const clients: Client[] = [
   { id: 'toyota', name: 'Toyota', logo: '/images/clients/toyota.svg', website: 'https://toyota.co.in' },
   { id: 'ktm', name: 'KTM', logo: '/images/clients/ktm.svg', website: 'https://ktm.com' },
   { id: 'yamaha', name: 'Yamaha', logo: '/images/clients/yamaha.svg', website: 'https://yamaha-motor.co.in' },
+  { id: 'audi', name: 'Audi', logo: '/images/clients/audi.svg', website: 'https://audi.com' },
+  { id: 'mercedes', name: 'Mercedes-Benz', logo: '/images/clients/mercedes.svg', website: 'https://mercedes-benz.com' },
+  { id: 'lamborghini', name: 'Lamborghini', logo: '/images/clients/lamborghini.svg', website: 'https://lamborghini.com' },
   { id: 'fashion-brand', name: 'Fashion Studio', logo: '/images/clients/fashion.svg', website: '#' }
 ];
 
@@ -205,10 +208,11 @@ export const tools: Tool[] = [
 
 // Social Links
 export const socialLinks: SocialLink[] = [
-  { platform: 'Vimeo', url: 'https://vimeo.com/aadizfx', icon: 'vimeo' },
-  { platform: 'Behance', url: 'https://behance.net/aadizfx', icon: 'behance' },
-  { platform: 'Instagram', url: 'https://instagram.com/aadizfx', icon: 'instagram' },
-  { platform: 'LinkedIn', url: 'https://linkedin.com/in/aadizfx', icon: 'linkedin' }
+  { platform: 'Vimeo', url: 'https://vimeo.com/adityashinde', icon: 'vimeo' },
+  { platform: 'Behance', url: 'https://behance.net/adityashinde', icon: 'behance' },
+  { platform: 'Instagram', url: 'https://instagram.com/adityashinde', icon: 'instagram' },
+  { platform: 'LinkedIn', url: 'https://linkedin.com/in/adityashinde', icon: 'linkedin' },
+  { platform: 'Careers', url: '/careers', icon: 'briefcase' }
 ];
 
 // Site Metadata

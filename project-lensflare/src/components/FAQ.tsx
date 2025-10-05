@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { ChevronDown, ChevronUp, Mail, Phone } from 'lucide-react'
 
 const faqs = [
@@ -118,20 +119,20 @@ export default function FAQ() {
             Get in touch for a personalized consultation
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
+            <Link
               href="mailto:adityashinde6050@gmail.com"
               className="btn-primary flex items-center space-x-2"
             >
               <Mail className="w-4 h-4" />
               <span>Send an Email</span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="tel:+918180999435"
               className="btn-secondary flex items-center space-x-2"
             >
               <Phone className="w-4 h-4" />
               <span>Call or WhatsApp</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

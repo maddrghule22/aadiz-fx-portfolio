@@ -140,12 +140,15 @@ const testimonials = [
 ];
 
 const clients = [
-  { id: 'bmw', name: 'BMW', logo: '/images/clients/bmw-logo.svg', website: 'https://bmw.in' },
-  { id: 'ducati', name: 'Ducati', logo: '/images/clients/ducati-logo.svg', website: 'https://ducati.com' },
-  { id: 'toyota', name: 'Toyota', logo: '/images/clients/toyota-logo.svg', website: 'https://toyota.co.in' },
-  { id: 'ktm', name: 'KTM', logo: '/images/clients/ktm-logo.svg', website: 'https://ktm.com' },
-  { id: 'yamaha', name: 'Yamaha', logo: '/images/clients/yamaha-logo.svg', website: 'https://yamaha-motor.co.in' },
-  { id: 'fashion-brand', name: 'Fashion Studio', logo: '/images/clients/fashion-logo.svg', website: '#' }
+  { id: 'bmw', name: 'BMW', logo: '/images/clients/bmw.svg', website: 'https://bmw.in' },
+  { id: 'ducati', name: 'Ducati', logo: '/images/clients/ducati.svg', website: 'https://ducati.com' },
+  { id: 'toyota', name: 'Toyota', logo: '/images/clients/toyota.svg', website: 'https://toyota.co.in' },
+  { id: 'ktm', name: 'KTM', logo: '/images/clients/ktm.svg', website: 'https://ktm.com' },
+  { id: 'yamaha', name: 'Yamaha', logo: '/images/clients/yamaha.svg', website: 'https://yamaha-motor.co.in' },
+  { id: 'audi', name: 'Audi', logo: '/images/clients/audi.svg', website: 'https://audi.com' },
+  { id: 'mercedes', name: 'Mercedes-Benz', logo: '/images/clients/mercedes.svg', website: 'https://mercedes-benz.com' },
+  { id: 'lamborghini', name: 'Lamborghini', logo: '/images/clients/lamborghini.svg', website: 'https://lamborghini.com' },
+  { id: 'fashion-brand', name: 'Fashion Studio', logo: '/images/clients/fashion.svg', website: '#' }
 ];
 
 const services = [
