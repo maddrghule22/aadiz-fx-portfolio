@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # MongoDB database
+  mongodb:
+    image: mongo:5
+    container_name: aadizfx-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aadizfx-backend
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/aadizfx?authSource=admin
+      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_PORT=587
+      - EMAIL_USER=your-email@gmail.com
+      - EMAIL_PASS=your-app-password
+      - EMAIL_FROM=adityashinde6050@gmail.com
+      - FRONTEND_URL=http://localhost:3000
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend/uploads:/app/uploads
+      - ./backend/logs:/app/logs
+
+  # Frontend
+  frontend:
+    build:
+      context: ./project-lensflare
+      dockerfile: Dockerfile
+    container_name: aadizfx-frontend
+    restart: always
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000/api
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:

@@ -1,371 +1,223 @@
 'use client'
 
-import { useState } from 'react'
-import { Film, Camera, Edit, Zap, CheckCircle, ArrowRight, Star } from 'lucide-react'
-import { services, tools } from '@/data'
-
-const pricingTiers = [
-  {
-    id: 'essential',
-    name: 'Essential',
-    price: '$2,500',
-    duration: 'Starting from',
-    description: 'Perfect for small businesses and startups looking for professional video content.',
-    features: [
-      'Up to 2 minutes final video',
-      'Basic color grading',
-      'Standard audio mixing',
-      '2 rounds of revisions',
-      'HD (1080p) delivery',
-      '1-week turnaround'
-    ],
-    popular: false,
-    cta: 'Get Started'
-  },
-  {
-    id: 'professional',
-    name: 'Professional',
-    price: '$5,000',
-    duration: 'Starting from',
-    description: 'Comprehensive video production for established brands and marketing campaigns.',
-    features: [
-      'Up to 5 minutes final video',
-      'Advanced color grading',
-      'Professional audio mixing',
-      'Motion graphics included',
-      '4K delivery',
-      '3 rounds of revisions',
-      '2-week turnaround',
-      'Social media cuts'
-    ],
-    popular: true,
-    cta: 'Most Popular'
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: 'Custom',
-    duration: 'Quote',
-    description: 'Full-scale video production with VFX for large campaigns and productions.',
-    features: [
-      'Unlimited video length',
-      'Advanced VFX & animation',
-      'Cinema-grade color grading',
-      'Surround sound mixing',
-      '8K/Cinema delivery',
-      'Unlimited revisions',
-      'Priority support',
-      'Multi-format delivery',
-      'Behind-the-scenes content'
-    ],
-    popular: false,
-    cta: 'Get Quote'
-  }
-]
+import { motion } from 'framer-motion'
 
 export default function ServicesPage() {
-  const [activeService, setActiveService] = useState('pre-production')
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  }
+
+  const staggerContainer = {
+    visible: {
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  }
+
+  const services = [
+    {
+      title: "Videography",
+      description: "Professional filming with cinematic techniques and high-end equipment for commercials, documentaries, and creative projects.",
+      icon: (
+        <svg className="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>
+      )
+    },
+    {
+      title: "Post-Production",
+      description: "Expert editing, color grading, and audio mixing to polish projects to perfection with attention to detail.",
+      icon: (
+        <svg className="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path>
+        </svg>
+      )
+    },
+    {
+      title: "VFX & Animation",
+      description: "Cutting-edge visual effects and 3D animation to bring impossible visions to life and enhance storytelling.",
+      icon: (
+        <svg className="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+      )
+    },
+    {
+      title: "Color Grading",
+      description: "Professional color correction and grading to create consistent looks and enhance the emotional impact of your visuals.",
+      icon: (
+        <svg className="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+        </svg>
+      )
+    },
+    {
+      title: "Sound Design",
+      description: "Professional audio recording, editing, and mixing to create immersive soundscapes that complement your visual content.",
+      icon: (
+        <svg className="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m1.414-4.242a5 5 0 010-7.07m-2.828 9.9a9 9 0 010-12.728"></path>
+        </svg>
+      )
+    },
+    {
+      title: "Creative Consultation",
+      description: "Strategic guidance on visual storytelling, concept development, and creative direction to maximize the impact of your projects.",
+      icon: (
+        <svg className="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+        </svg>
+      )
+    }
+  ]
 
   return (
-    <div className="min-h-screen bg-primary-900">
-      {/* Page Header */}
-      <section className="section-spacing bg-hero-gradient">
-        <div className="container-padding max-w-7xl mx-auto text-center">
-          <h1 className="heading-xl text-neutral-100 mb-6 animate-on-scroll">
-            Professional <span className="text-accent-gradient">Services</span>
-          </h1>
-          <p className="body-lg text-neutral-300 max-w-3xl mx-auto animate-on-scroll">
-            From concept to completion, I provide comprehensive video production services that transform your vision into compelling visual narratives that captivate audiences and drive results.
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-hero-gradient py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="text-center mb-16 section-spacing"
+        >
+          <motion.h1 
+            variants={fadeInUp}
+            className="heading-xl text-neutral-100 mb-6"
+          >
+            My <span className="text-accent-gradient">Services</span>
+          </motion.h1>
+          <motion.p 
+            variants={fadeInUp}
+            className="body-lg text-neutral-200 max-w-3xl mx-auto"
+          >
+            Professional videography and VFX services tailored to bring your creative vision to life 
+            with cinematic quality and attention to detail.
+          </motion.p>
+        </motion.div>
 
-      {/* Service Tiers */}
-      <section id="service-tiers" className="section-spacing bg-section-gradient">
-        <div className="container-padding max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="heading-lg text-neutral-100 mb-6 animate-on-scroll">
-              Service <span className="text-accent-gradient">Tiers</span>
-            </h2>
-            <p className="body-lg text-neutral-300 max-w-2xl mx-auto animate-on-scroll">
-              Choose the perfect package for your project needs and budget
-            </p>
-          </div>
-
-          {/* Service Categories */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {services.map((service, index) => {
-              const IconComponent = service.icon === 'film' ? Film : 
-                                   service.icon === 'camera' ? Camera :
-                                   service.icon === 'edit' ? Edit : Zap
-              return (
-                <div
-                  key={service.id}
-                  className={`group p-8 rounded-xl border transition-all duration-300 cursor-pointer hover-lift animate-on-scroll ${
-                    activeService === service.id
-                      ? 'bg-accent-500/10 border-accent-500/50'
-                      : 'bg-primary-800/30 border-primary-700/50 hover:border-accent-500/30'
-                  }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                  onClick={() => setActiveService(service.id)}
-                >
-                  <div className="w-16 h-16 bg-accent-500/10 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-500/20 transition-colors duration-300">
-                    <IconComponent className="w-8 h-8 text-accent-500" />
-                  </div>
-                  <h3 className="heading-xs text-neutral-100 mb-4 text-center group-hover:text-accent-500 transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="body-sm text-neutral-300 text-center leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Service Details */}
-          <div className="glass rounded-2xl p-8 md:p-12 animate-on-scroll">
-            {services.map((service) => (
-              <div
-                key={service.id}
-                className={`${activeService === service.id ? 'block' : 'hidden'}`}
+        {/* Services Grid */}
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="mb-16 section-spacing"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <motion.div
+                key={index}
+                variants={fadeInUp}
+                className="glass rounded-2xl p-8 hover-lift"
               >
-                <div className="text-center mb-8">
-                  <h3 className="heading-md text-neutral-100 mb-4">{service.title}</h3>
-                  <p className="body-lg text-neutral-300 max-w-2xl mx-auto">
-                    {service.description}
-                  </p>
+                <div className="bg-accent-500/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                  {service.icon}
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {service.features.map((feature, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center space-x-3"
-                    >
-                      <CheckCircle className="w-5 h-5 text-accent-500 flex-shrink-0" />
-                      <span className="body-md text-neutral-300">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section className="section-spacing bg-primary-900">
-        <div className="container-padding max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="heading-lg text-neutral-100 mb-6 animate-on-scroll">
-              Transparent <span className="text-accent-gradient">Pricing</span>
-            </h2>
-            <p className="body-lg text-neutral-300 max-w-2xl mx-auto animate-on-scroll">
-              Choose the package that fits your project scope and budget
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {pricingTiers.map((tier, index) => (
-              <div
-                key={tier.id}
-                className={`relative group rounded-2xl border transition-all duration-300 hover-lift animate-on-scroll ${
-                  tier.popular
-                    ? 'bg-accent-500/5 border-accent-500/50 scale-105'
-                    : 'bg-primary-800/30 border-primary-700/50 hover:border-accent-500/30'
-                }`}
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-accent-500 text-primary-900 px-4 py-2 rounded-full text-sm font-semibold flex items-center space-x-1">
-                      <Star className="w-4 h-4 fill-current" />
-                      <span>Most Popular</span>
-                    </div>
-                  </div>
-                )}
-
-                <div className="p-8">
-                  <div className="text-center mb-8">
-                    <h3 className="heading-sm text-neutral-100 mb-2">{tier.name}</h3>
-                    <div className="flex items-baseline justify-center mb-2">
-                      <span className="heading-lg text-accent-500">{tier.price}</span>
-                      {tier.duration && (
-                        <span className="body-sm text-neutral-400 ml-2">/ {tier.duration}</span>
-                      )}
-                    </div>
-                    <p className="body-sm text-neutral-300">{tier.description}</p>
-                  </div>
-
-                  <ul className="space-y-4 mb-8">
-                    {tier.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-accent-500 flex-shrink-0" />
-                        <span className="body-sm text-neutral-300">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    className={`w-full py-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2 ${
-                      tier.popular
-                        ? 'btn-primary'
-                        : 'btn-secondary'
-                    }`}
-                  >
-                    <span>{tier.cta}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12 animate-on-scroll">
-            <p className="body-md text-neutral-300 mb-6">
-              Need something custom? Let's discuss your specific requirements.
-            </p>
-            <a href="/contact" className="btn-ghost text-lg">
-              Get Custom Quote →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Tools & Software */}
-      <section className="section-spacing bg-section-gradient">
-        <div className="container-padding max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="heading-lg text-neutral-100 mb-6 animate-on-scroll">
-              Professional <span className="text-accent-gradient">Tools</span>
-            </h2>
-            <p className="body-lg text-neutral-300 max-w-2xl mx-auto animate-on-scroll">
-              I use industry-leading software and cutting-edge technology to deliver exceptional results
-            </p>
-          </div>
-
-          {/* Tools by Category */}
-          <div className="space-y-12">
-            {['editing', 'vfx', 'color', 'audio', 'motion'].map((category) => {
-              const categoryTools = tools.filter(tool => tool.category === category)
-              if (categoryTools.length === 0) return null
-
-              return (
-                <div key={category} className="animate-on-scroll">
-                  <h3 className="heading-sm text-neutral-100 mb-6 capitalize">
-                    {category === 'vfx' ? 'VFX & 3D' : category} Software
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                    {categoryTools.map((tool, index) => (
-                      <div
-                        key={tool.id}
-                        className="group bg-primary-800/30 border border-primary-700/50 rounded-xl p-6 text-center hover:border-accent-500/50 transition-all duration-300 hover-lift"
-                        style={{ animationDelay: `${index * 100}ms` }}
-                      >
-                        <div className="w-12 h-12 bg-accent-500/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-accent-500/20 transition-colors duration-300">
-                          <div className="w-6 h-6 bg-accent-500 rounded"></div>
-                        </div>
-                        <h4 className="body-sm font-medium text-neutral-100 mb-2">{tool.name}</h4>
-                        <div className="flex justify-center">
-                          {[...Array(4)].map((_, i) => (
-                            <div
-                              key={i}
-                              className={`w-2 h-2 rounded-full mx-0.5 ${
-                                i < (tool.proficiency === 'expert' ? 4 : 
-                                     tool.proficiency === 'advanced' ? 3 : 
-                                     tool.proficiency === 'intermediate' ? 2 : 1)
-                                  ? 'bg-accent-500'
-                                  : 'bg-primary-700'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="section-spacing bg-primary-900">
-        <div className="container-padding max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="heading-lg text-neutral-100 mb-6 animate-on-scroll">
-              My <span className="text-accent-gradient">Process</span>
-            </h2>
-            <p className="body-lg text-neutral-300 max-w-2xl mx-auto animate-on-scroll">
-              A proven workflow that ensures exceptional results every time
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                step: '01',
-                title: 'Discovery',
-                description: 'Understanding your vision, goals, and requirements through detailed consultation.'
-              },
-              {
-                step: '02',
-                title: 'Planning',
-                description: 'Creating detailed storyboards, shot lists, and production timelines.'
-              },
-              {
-                step: '03',
-                title: 'Production',
-                description: 'Professional filming with state-of-the-art equipment and experienced crew.'
-              },
-              {
-                step: '04',
-                title: 'Post-Production',
-                description: 'Expert editing, color grading, VFX, and audio mixing for the final product.'
-              }
-            ].map((phase, index) => (
-              <div
-                key={phase.step}
-                className="text-center group animate-on-scroll"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <div className="w-20 h-20 bg-accent-500/10 border-2 border-accent-500/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-500/20 group-hover:border-accent-500/50 transition-all duration-300">
-                  <span className="heading-xs text-accent-500 font-bold">{phase.step}</span>
-                </div>
-                <h3 className="heading-xs text-neutral-100 mb-4 group-hover:text-accent-500 transition-colors duration-300">
-                  {phase.title}
+                <h3 className="heading-sm text-neutral-100 mb-3">
+                  {service.title}
                 </h3>
-                <p className="body-sm text-neutral-300 leading-relaxed">
-                  {phase.description}
+                <p className="body-md text-neutral-300">
+                  {service.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Process Section */}
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="mb-16 section-spacing"
+        >
+          <motion.h2 
+            variants={fadeInUp}
+            className="heading-lg text-neutral-100 mb-8 text-center"
+          >
+            My <span className="text-accent-gradient">Process</span>
+          </motion.h2>
+          
+          <motion.div 
+            variants={fadeInUp}
+            className="glass rounded-2xl p-6 md:p-8"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="text-center">
+                <div className="bg-accent-500/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-accent-500">1</span>
+                </div>
+                <h3 className="heading-xs text-neutral-100 mb-2">Discover</h3>
+                <p className="body-sm text-neutral-300">
+                  We dive deep into your creative vision and project goals to understand your unique needs.
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              
+              <div className="text-center">
+                <div className="bg-accent-500/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-accent-500">2</span>
+                </div>
+                <h3 className="heading-xs text-neutral-100 mb-2">Create</h3>
+                <p className="body-sm text-neutral-300">
+                  I develop a creative roadmap and visual concepts tailored to your objectives and timeline.
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-accent-500/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-accent-500">3</span>
+                </div>
+                <h3 className="heading-xs text-neutral-100 mb-2">Execute</h3>
+                <p className="body-sm text-neutral-300">
+                  I bring your vision to life with precision, ensuring quality at every step of production.
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-accent-500/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-accent-500">4</span>
+                </div>
+                <h3 className="heading-xs text-neutral-100 mb-2">Deliver</h3>
+                <p className="body-sm text-neutral-300">
+                  I deliver your final project and provide ongoing support to ensure continued success.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </motion.section>
 
-      {/* CTA Section */}
-      <section className="section-spacing bg-section-gradient">
-        <div className="container-padding max-w-4xl mx-auto text-center">
-          <h2 className="heading-lg text-neutral-100 mb-6 animate-on-scroll">
-            Ready to Create Something <span className="text-accent-gradient">Extraordinary?</span>
-          </h2>
-          <p className="body-lg text-neutral-300 mb-8 animate-on-scroll">
-            Let's discuss your project and bring your vision to life with professional video production that exceeds expectations.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-on-scroll">
-            <a href="/contact" className="btn-primary flex items-center space-x-2">
-              <span>Start Your Project</span>
-              <ArrowRight className="w-5 h-5" />
+        {/* CTA Section */}
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="text-center section-spacing"
+        >
+          <motion.h2 
+            variants={fadeInUp}
+            className="heading-lg text-neutral-100 mb-6"
+          >
+            Ready to Bring Your <span className="text-accent-gradient">Vision</span> to Life?
+          </motion.h2>
+          
+          <motion.p 
+            variants={fadeInUp}
+            className="body-lg text-neutral-200 mb-8 max-w-2xl mx-auto"
+          >
+            Let's discuss how my services can help you achieve your creative goals and create lasting impact.
+          </motion.p>
+          
+          <motion.div 
+            variants={fadeInUp}
+          >
+            <a href="/contact" className="btn-primary">
+              Get in Touch
             </a>
-            <a href="/work" className="btn-secondary flex items-center space-x-2">
-              <span>View Portfolio</span>
-            </a>
-          </div>
-        </div>
-      </section>
+          </motion.div>
+        </motion.section>
+      </div>
     </div>
   )
 }

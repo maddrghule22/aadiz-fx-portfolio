@@ -46,8 +46,13 @@ export default function Navigation() {
             {/* Logo */}
             <Link
               href="/"
-              className="text-2xl font-headline font-bold text-gradient hover:scale-105 transition-transform duration-300"
+              className="text-2xl font-headline font-bold text-gradient hover:scale-105 transition-transform duration-300 flex items-center"
             >
+              <img 
+                src="/images/logo.svg" 
+                alt="Aadiz.FX Logo" 
+                className="h-8 w-auto mr-2"
+              />
               AADIZ.FX
             </Link>
 

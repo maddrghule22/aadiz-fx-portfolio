@@ -44,6 +44,7 @@ export default function HeroSection() {
           muted
           loop
           controls={false}
+          playOnScroll={true} // Enable scroll-based play
           className="w-full h-full"
         />
       </div>

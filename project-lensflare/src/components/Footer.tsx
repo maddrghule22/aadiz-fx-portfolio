@@ -55,14 +55,19 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link
               href="/"
-              className="text-2xl font-headline font-bold text-gradient mb-4 inline-block"
+              className="text-2xl font-headline font-bold text-gradient mb-4 inline-flex items-center"
             >
+              <img 
+                src="/images/logo.svg" 
+                alt="Aadiz.FX Logo" 
+                className="h-8 w-auto mr-2"
+              />
               AADIZ.FX
             </Link>
             <p className="body-md text-neutral-300 mb-6 max-w-md">
               Crafting visual narratives that captivate audiences and elevate brands through the art of cinematography and visual effects.
             </p>
-            
+
             {/* Contact Info */}
             <div className="space-y-3">
               {contactInfo.map((item) => {

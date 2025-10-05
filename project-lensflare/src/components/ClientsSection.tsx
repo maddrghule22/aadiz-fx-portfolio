@@ -1,9 +1,60 @@
 'use client'
 
 import Image from 'next/image'
-import { clients } from '@/data'
 
-export default function ClientsSection() {
+interface Client {
+  id: string;
+  name: string;
+  logo: string;
+  website: string;
+}
+
+interface ClientsSectionProps {
+  clients?: Client[];
+}
+
+const defaultClients = [
+  {
+    id: '1',
+    name: 'BMW',
+    logo: '/images/clients/bmw.svg',
+    website: 'https://www.bmw.com'
+  },
+  {
+    id: '2',
+    name: 'Ducati',
+    logo: '/images/clients/ducati.svg',
+    website: 'https://www.ducati.com'
+  },
+  {
+    id: '3',
+    name: 'Toyota',
+    logo: '/images/clients/toyota.svg',
+    website: 'https://www.toyota.com'
+  },
+  {
+    id: '4',
+    name: 'Audi',
+    logo: '/images/clients/audi.svg',
+    website: 'https://www.audi.com'
+  },
+  {
+    id: '5',
+    name: 'Mercedes-Benz',
+    logo: '/images/clients/mercedes.svg',
+    website: 'https://www.mercedes-benz.com'
+  },
+  {
+    id: '6',
+    name: 'Lamborghini',
+    logo: '/images/clients/lamborghini.svg',
+    website: 'https://www.lamborghini.com'
+  }
+]
+
+export default function ClientsSection({ clients = [] }: ClientsSectionProps) {
+  const clientsData = clients.length > 0 ? clients : defaultClients;
+
   return (
     <section className="py-16 bg-primary-900">
       <div className="container-padding max-w-7xl mx-auto">
@@ -19,9 +70,9 @@ export default function ClientsSection() {
 
         {/* Clients Logo Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
-          {clients.map((client, index) => (
+          {clientsData.map((client, index) => (
             <div
-              key={client.id}
+              key={client.id || index}
               className="group flex items-center justify-center p-6 rounded-xl bg-primary-800/30 hover:bg-primary-800/50 border border-primary-700/30 hover:border-accent-500/30 transition-all duration-300 hover-lift animate-on-scroll"
               style={{ animationDelay: `${index * 100}ms` }}
             >

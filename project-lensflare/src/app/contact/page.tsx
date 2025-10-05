@@ -1,408 +1,267 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react'
-import { socialLinks } from '@/data'
-import FAQ from '@/components/FAQ'
-
-const contactInfo = [
-  {
-    icon: Mail,
-    title: 'Email',
-    value: 'adityashinde6050@gmail.com',
-    link: 'mailto:adityashinde6050@gmail.com',
-    description: 'Drop me a line anytime'
-  },
-  {
-    icon: Phone,
-    title: 'Phone',
-    value: '+91 81809 99435',
-    link: 'tel:+918180999435',
-    description: 'Mon-Fri from 9am to 6pm'
-  },
-  {
-    icon: MapPin,
-    title: 'Location',
-    value: 'Pirangut, Pune',
-    link: '#',
-    description: 'Available for global projects'
-  },
-  {
-    icon: Clock,
-    title: 'Response Time',
-    value: '24 Hours',
-    link: '#',
-    description: 'Usually much faster'
-  }
-]
-
-const projectTypes = [
-  'Commercial/Advertisement',
-  'Music Video',
-  'Corporate Video',
-  'Documentary',
-  'Short Film',
-  'Social Media Content',
-  'VFX/Animation',
-  'Live Event Coverage',
-  'Product Demo',
-  'Other'
-]
-
-const budgetRanges = [
-  'Under $5,000',
-  '$5,000 - $10,000',
-  '$10,000 - $25,000',
-  '$25,000 - $50,000',
-  '$50,000+',
-  'Let\'s Discuss'
-]
-
-const timelines = [
-  'ASAP',
-  'Within 2 weeks',
-  'Within 1 month',
-  'Within 3 months',
-  '3+ months',
-  'Flexible'
-]
 
 export default function ContactPage() {
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  }
+
+  const staggerContainer = {
+    visible: {
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  }
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    company: '',
-    projectType: '',
-    budget: '',
-    timeline: '',
+    subject: '',
     message: ''
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Form submission logic would go here
+    console.log('Form submitted:', formData)
+    alert('Thank you for your message! I will get back to you soon.')
     setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
     })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        projectType: '',
-        budget: '',
-        timeline: '',
-        message: ''
-      })
-    }, 3000)
-  }
-
   return (
-    <div className="min-h-screen bg-primary-900">
-      {/* Page Header */}
-      <section className="section-spacing bg-hero-gradient">
-        <div className="container-padding max-w-7xl mx-auto text-center">
-          <h1 className="heading-xl text-neutral-100 mb-6 animate-on-scroll">
-            Let's Create Something <span className="text-accent-gradient">Extraordinary</span>
-          </h1>
-          <p className="body-lg text-neutral-300 max-w-3xl mx-auto animate-on-scroll">
-            Ready to bring your vision to life? I'm here to help you create compelling video content that captivates your audience and achieves your goals. Let's start the conversation.
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-hero-gradient py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="text-center mb-16 section-spacing"
+        >
+          <motion.h1 
+            variants={fadeInUp}
+            className="heading-xl text-neutral-100 mb-6"
+          >
+            Get in <span className="text-accent-gradient">Touch</span>
+          </motion.h1>
+          <motion.p 
+            variants={fadeInUp}
+            className="body-lg text-neutral-200 max-w-3xl mx-auto"
+          >
+            Have a project in mind or want to learn more about my services? Reach out to me and 
+            let's start a conversation.
+          </motion.p>
+        </motion.div>
 
-      {/* Contact Information */}
-      <section className="py-16 bg-section-gradient">
-        <div className="container-padding max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {contactInfo.map((info, index) => {
-              const IconComponent = info.icon
-              return (
-                <div
-                  key={info.title}
-                  className="text-center group animate-on-scroll"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="w-16 h-16 bg-accent-500/10 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-500/20 transition-colors duration-300">
-                    <IconComponent className="w-6 h-6 text-accent-500" />
-                  </div>
-                  <h3 className="heading-xs text-neutral-100 mb-2 group-hover:text-accent-500 transition-colors duration-300">
-                    {info.title}
-                  </h3>
-                  <a
-                    href={info.link}
-                    className="body-md text-accent-500 hover:text-accent-400 transition-colors duration-300 block mb-2"
-                  >
-                    {info.value}
-                  </a>
-                  <p className="body-sm text-neutral-400">{info.description}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Information */}
+          <motion.section
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+          >
+            <motion.h2 
+              variants={fadeInUp}
+              className="heading-sm text-neutral-100 mb-6"
+            >
+              Contact Information
+            </motion.h2>
+            
+            <motion.div 
+              variants={fadeInUp}
+              className="space-y-8"
+            >
+              <div className="flex items-start">
+                <div className="bg-accent-500/10 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <svg className="w-6 h-6 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                  </svg>
                 </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form */}
-      <section className="section-spacing bg-primary-900">
-        <div className="container-padding max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Form */}
-            <div className="animate-on-scroll">
-              <h2 className="heading-lg text-neutral-100 mb-8">
-                Tell Me About Your <span className="text-accent-gradient">Project</span>
-              </h2>
+                <div>
+                  <h3 className="heading-xs text-neutral-100 mb-1">Phone</h3>
+                  <p className="body-md text-neutral-300">+91 98765 43210</p>
+                </div>
+              </div>
               
-              {isSubmitted ? (
-                <div className="glass rounded-2xl p-8 text-center">
-                  <CheckCircle className="w-16 h-16 text-accent-500 mx-auto mb-6" />
-                  <h3 className="heading-sm text-neutral-100 mb-4">Message Sent Successfully!</h3>
-                  <p className="body-md text-neutral-300">
-                    Thank you for reaching out. I'll get back to you within 24 hours.
-                  </p>
+              <div className="flex items-start">
+                <div className="bg-accent-500/10 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <svg className="w-6 h-6 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Name & Email */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="name" className="block body-sm font-medium text-neutral-300 mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full bg-primary-800/50 border border-primary-700/50 text-neutral-100 px-4 py-3 rounded-lg focus:outline-none focus:border-accent-500/50 focus:ring-1 focus:ring-accent-500/25 transition-all duration-300"
-                        placeholder="Your full name"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="email" className="block body-sm font-medium text-neutral-300 mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full bg-primary-800/50 border border-primary-700/50 text-neutral-100 px-4 py-3 rounded-lg focus:outline-none focus:border-accent-500/50 focus:ring-1 focus:ring-accent-500/25 transition-all duration-300"
-                        placeholder="your.email@company.com"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Company */}
-                  <div>
-                    <label htmlFor="company" className="block body-sm font-medium text-neutral-300 mb-2">
-                      Company/Organization
-                    </label>
-                    <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleInputChange}
-                      className="w-full bg-primary-800/50 border border-primary-700/50 text-neutral-100 px-4 py-3 rounded-lg focus:outline-none focus:border-accent-500/50 focus:ring-1 focus:ring-accent-500/25 transition-all duration-300"
-                      placeholder="Your company name"
-                    />
-                  </div>
-
-                  {/* Project Details */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div>
-                      <label htmlFor="projectType" className="block body-sm font-medium text-neutral-300 mb-2">
-                        Project Type *
-                      </label>
-                      <select
-                        id="projectType"
-                        name="projectType"
-                        value={formData.projectType}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full bg-primary-800/50 border border-primary-700/50 text-neutral-100 px-4 py-3 rounded-lg focus:outline-none focus:border-accent-500/50 focus:ring-1 focus:ring-accent-500/25 transition-all duration-300"
-                      >
-                        <option value="">Select type</option>
-                        {projectTypes.map((type) => (
-                          <option key={type} value={type}>{type}</option>
-                        ))}
-                      </select>
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="budget" className="block body-sm font-medium text-neutral-300 mb-2">
-                        Budget Range *
-                      </label>
-                      <select
-                        id="budget"
-                        name="budget"
-                        value={formData.budget}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full bg-primary-800/50 border border-primary-700/50 text-neutral-100 px-4 py-3 rounded-lg focus:outline-none focus:border-accent-500/50 focus:ring-1 focus:ring-accent-500/25 transition-all duration-300"
-                      >
-                        <option value="">Select budget</option>
-                        {budgetRanges.map((range) => (
-                          <option key={range} value={range}>{range}</option>
-                        ))}
-                      </select>
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="timeline" className="block body-sm font-medium text-neutral-300 mb-2">
-                        Timeline *
-                      </label>
-                      <select
-                        id="timeline"
-                        name="timeline"
-                        value={formData.timeline}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full bg-primary-800/50 border border-primary-700/50 text-neutral-100 px-4 py-3 rounded-lg focus:outline-none focus:border-accent-500/50 focus:ring-1 focus:ring-accent-500/25 transition-all duration-300"
-                      >
-                        <option value="">Select timeline</option>
-                        {timelines.map((time) => (
-                          <option key={time} value={time}>{time}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label htmlFor="message" className="block body-sm font-medium text-neutral-300 mb-2">
-                      Project Details *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                      rows={6}
-                      className="w-full bg-primary-800/50 border border-primary-700/50 text-neutral-100 px-4 py-3 rounded-lg focus:outline-none focus:border-accent-500/50 focus:ring-1 focus:ring-accent-500/25 transition-all duration-300 resize-vertical"
-                      placeholder="Please describe your project, goals, target audience, and any specific requirements or creative direction you have in mind..."
-                    />
-                  </div>
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn-primary w-full flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-primary-900 border-t-transparent rounded-full animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
-
-            {/* Additional Information */}
-            <div className="space-y-8 animate-on-scroll">
-              {/* FAQ */}
-              <div className="glass rounded-2xl p-8">
-                <h3 className="heading-sm text-neutral-100 mb-6">Frequently Asked Questions</h3>
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="body-md font-medium text-neutral-100 mb-2">What's your typical turnaround time?</h4>
-                    <p className="body-sm text-neutral-300">
-                      Most projects are completed within 2-4 weeks, depending on complexity. Rush jobs are available for an additional fee.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="body-md font-medium text-neutral-100 mb-2">Do you handle filming or just post-production?</h4>
-                    <p className="body-sm text-neutral-300">
-                      I offer full-service video production from pre-production planning to final delivery, including filming, editing, and VFX.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="body-md font-medium text-neutral-100 mb-2">What file formats do you deliver?</h4>
-                    <p className="body-sm text-neutral-300">
-                      I deliver in any format you need: MP4, MOV, ProRes, or custom specifications for your platform requirements.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="body-md font-medium text-neutral-100 mb-2">Do you work with international clients?</h4>
-                    <p className="body-sm text-neutral-300">
-                      Absolutely! I work with clients worldwide and can accommodate different time zones for communication.
-                    </p>
-                  </div>
+                <div>
+                  <h3 className="heading-xs text-neutral-100 mb-1">Email</h3>
+                  <p className="body-md text-neutral-300">hello@aadiz.fx</p>
                 </div>
               </div>
-
-              {/* Social Links */}
-              <div className="glass rounded-2xl p-8">
-                <h3 className="heading-sm text-neutral-100 mb-6">Connect With Me</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {socialLinks.map((social) => (
-                    <a
-                      key={social.platform}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center space-x-3 p-4 bg-primary-700/30 hover:bg-primary-700/50 border border-primary-600/30 hover:border-accent-500/30 rounded-lg transition-all duration-300 hover-lift"
-                    >
-                      <div className="w-8 h-8 bg-accent-500/20 rounded-lg flex items-center justify-center">
-                        <div className="w-4 h-4 bg-accent-500 rounded"></div>
-                      </div>
-                      <span className="body-sm text-neutral-300">{social.platform}</span>
-                    </a>
-                  ))}
+              
+              <div className="flex items-start">
+                <div className="bg-accent-500/10 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <svg className="w-6 h-6 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="heading-xs text-neutral-100 mb-1">Location</h3>
+                  <p className="body-md text-neutral-300">Pirangut, Pune<br />Maharashtra, India</p>
                 </div>
               </div>
-
-              {/* Call to Action */}
-              <div className="glass rounded-2xl p-8 text-center">
-                <h3 className="heading-sm text-neutral-100 mb-4">Prefer to Schedule a Call?</h3>
-                <p className="body-sm text-neutral-300 mb-6">
-                  Sometimes it's easier to discuss your project over the phone. I'm happy to schedule a free consultation call.
-                </p>
-                <a
-                  href="mailto:adityashinde6050@gmail.com?subject=Schedule a Call"
-                  className="btn-secondary inline-flex items-center space-x-2"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>Schedule Call</span>
+              
+              <div className="flex items-start">
+                <div className="bg-accent-500/10 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <svg className="w-6 h-6 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="heading-xs text-neutral-100 mb-1">Working Hours</h3>
+                  <p className="body-md text-neutral-300">Monday - Friday: 10AM - 6PM<br />Saturday: 12PM - 4PM</p>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Social Media Links */}
+            <motion.div
+              variants={fadeInUp}
+              className="mt-12"
+            >
+              <h3 className="heading-xs text-neutral-100 mb-4">Follow Me</h3>
+              <div className="flex space-x-4">
+                <a href="https://vimeo.com/aadizfx" className="bg-accent-500/10 w-10 h-10 rounded-full flex items-center justify-center hover:bg-accent-500 hover:text-primary-900 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                  </svg>
+                </a>
+                <a href="https://behance.net/aadizfx" className="bg-accent-500/10 w-10 h-10 rounded-full flex items-center justify-center hover:bg-accent-500 hover:text-primary-900 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"></path>
+                  </svg>
+                </a>
+                <a href="https://instagram.com/aadizfx" className="bg-accent-500/10 w-10 h-10 rounded-full flex items-center justify-center hover:bg-accent-500 hover:text-primary-900 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.689-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.689-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+                  </svg>
+                </a>
+                <a href="https://linkedin.com/in/aadizfx" className="bg-accent-500/10 w-10 h-10 rounded-full flex items-center justify-center hover:bg-accent-500 hover:text-primary-900 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                  </svg>
                 </a>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </motion.div>
+          </motion.section>
 
-      {/* FAQ Section */}
-      <FAQ />
+          {/* Contact Form */}
+          <motion.section
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+          >
+            <motion.h2 
+              variants={fadeInUp}
+              className="heading-sm text-neutral-100 mb-6"
+            >
+              Send Me a Message
+            </motion.h2>
+            
+            <motion.form 
+              variants={fadeInUp}
+              onSubmit={handleSubmit}
+              className="glass rounded-2xl p-6 md:p-8"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label htmlFor="name" className="block text-neutral-200 font-medium mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-primary-800/50 border border-primary-700/50 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-300"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-neutral-200 font-medium mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-primary-800/50 border border-primary-700/50 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-300"
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+              </div>
+              
+              <div className="mb-6">
+                <label htmlFor="subject" className="block text-neutral-200 font-medium mb-2">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-primary-800/50 border border-primary-700/50 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-300"
+                  placeholder="How can I help you?"
+                />
+              </div>
+              
+              <div className="mb-6">
+                <label htmlFor="message" className="block text-neutral-200 font-medium mb-2">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={5}
+                  className="w-full px-4 py-3 bg-primary-800/50 border border-primary-700/50 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-300"
+                  placeholder="Tell me about your project or ask me a question..."
+                ></textarea>
+              </div>
+              
+              <button
+                type="submit"
+                className="w-full btn-primary"
+              >
+                Send Message
+              </button>
+            </motion.form>
+          </motion.section>
+        </div>
+      </div>
     </div>
   )
 }

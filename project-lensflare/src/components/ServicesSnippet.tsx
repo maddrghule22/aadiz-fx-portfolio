@@ -2,30 +2,54 @@
 
 import { Film, Camera, Edit, Zap } from 'lucide-react'
 
-const coreServices = [
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+}
+
+interface ServicesSnippetProps {
+  services?: Service[];
+}
+
+const defaultServices = [
   {
-    icon: Film,
+    id: '1',
     title: 'Directing',
     description: 'Creative vision and storytelling that brings concepts to life with cinematic excellence.',
+    icon: 'Film'
   },
   {
-    icon: Camera,
+    id: '2',
     title: 'Cinematography',
     description: 'Professional filming with cutting-edge equipment to capture stunning visuals.',
+    icon: 'Camera'
   },
   {
-    icon: Edit,
+    id: '3',
     title: 'Post-Production',
     description: 'Expert editing, color grading, and audio mixing for polished final products.',
+    icon: 'Edit'
   },
   {
-    icon: Zap,
+    id: '4',
     title: 'VFX',
     description: 'Advanced visual effects and 3D animation to create impossible realities.',
+    icon: 'Zap'
   },
 ]
 
-export default function ServicesSnippet() {
+const iconMap = {
+  Film,
+  Camera,
+  Edit,
+  Zap
+}
+
+export default function ServicesSnippet({ services = [] }: ServicesSnippetProps) {
+  const servicesData = services.length > 0 ? services : defaultServices;
+
   return (
     <section className="section-spacing bg-primary-900">
       <div className="container-padding max-w-7xl mx-auto">
@@ -41,11 +65,11 @@ export default function ServicesSnippet() {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {coreServices.map((service, index) => {
-            const IconComponent = service.icon
+          {servicesData.map((service, index) => {
+            const IconComponent = iconMap[service.icon as keyof typeof iconMap] || Film;
             return (
               <div
-                key={service.title}
+                key={service.id || service.title}
                 className="group text-center p-8 rounded-xl bg-primary-800/50 border border-primary-700/50 hover:border-accent-500/50 transition-all duration-300 hover-lift animate-on-scroll"
                 style={{ animationDelay: `${index * 100}ms` }}
               >

@@ -4,13 +4,80 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Play, ExternalLink } from 'lucide-react'
-import { projects } from '@/data'
 
-export default function FeaturedWork() {
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  client: string;
+  thumbnailUrl: string;
+  year: number;
+  duration: string;
+  tags: string[];
+  featured: boolean;
+}
+
+interface FeaturedWorkProps {
+  projects?: Project[];
+}
+
+export default function FeaturedWork({ projects = [] }: FeaturedWorkProps) {
   const [hoveredProject, setHoveredProject] = useState<string | null>(null)
   
-  // Get featured projects
-  const featuredProjects = projects.filter(project => project.featured).slice(0, 4)
+  // Get featured projects or use provided projects
+  const featuredProjects = projects.length > 0 
+    ? projects 
+    : [
+        {
+          id: '1',
+          title: 'BMW M Series Commercial',
+          description: 'High-octane commercial showcasing the power and precision of BMW\'s M Series lineup.',
+          category: 'commercial',
+          client: 'BMW',
+          thumbnailUrl: '/images/projects/bmw-m-series.jpg',
+          year: 2023,
+          duration: '2:45',
+          tags: ['Automotive', 'CGI', 'Motion Graphics'],
+          featured: true
+        },
+        {
+          id: '2',
+          title: 'Ducati Desert X Launch',
+          description: 'Cinematic launch video highlighting the adventurous spirit of the new Ducati Desert X.',
+          category: 'commercial',
+          client: 'Ducati',
+          thumbnailUrl: '/images/projects/ducati-desert-x.jpg',
+          year: 2023,
+          duration: '1:30',
+          tags: ['Motorcycle', 'Adventure', 'VFX'],
+          featured: true
+        },
+        {
+          id: '3',
+          title: 'Toyota Hybrid Technology',
+          description: 'Innovative explainer video demonstrating Toyota\'s cutting-edge hybrid technology.',
+          category: 'vfx-breakdown',
+          client: 'Toyota',
+          thumbnailUrl: '/images/projects/toyota-hybrid.jpg',
+          year: 2023,
+          duration: '3:15',
+          tags: ['Automotive', 'Technology', 'Animation'],
+          featured: true
+        },
+        {
+          id: '4',
+          title: 'Audi e-tron GT Reveal',
+          description: 'Futuristic reveal of Audi\'s all-electric performance sedan with stunning VFX.',
+          category: 'commercial',
+          client: 'Audi',
+          thumbnailUrl: '/images/projects/audi-etron.jpg',
+          year: 2023,
+          duration: '2:10',
+          tags: ['Electric', 'Luxury', 'CGI'],
+          featured: true
+        }
+      ];
 
   return (
     <section id="featured-work" className="section-spacing bg-section-gradient">
@@ -22,7 +89,7 @@ export default function FeaturedWork() {
           </h2>
           <p className="body-lg text-neutral-300 max-w-2xl mx-auto animate-on-scroll">
             Showcasing my latest client work including automotive commercials, fashion editorials, 
-            and creative projects for leading brands like BMW, Ducati, Toyota, and more.
+            and creative projects for leading brands.
           </p>
         </div>
 
@@ -96,7 +163,7 @@ export default function FeaturedWork() {
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.slice(0, 3).map((tag) => (
+                  {project.tags && project.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
                       className="bg-primary-700/50 text-neutral-300 px-2 py-1 rounded text-xs"
@@ -104,7 +171,7 @@ export default function FeaturedWork() {
                       {tag}
                     </span>
                   ))}
-                  {project.tags.length > 3 && (
+                  {project.tags && project.tags.length > 3 && (
                     <span className="text-neutral-400 text-xs self-center">
                       +{project.tags.length - 3} more
                     </span>

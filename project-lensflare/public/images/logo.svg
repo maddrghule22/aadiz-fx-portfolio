@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <rect width="200" height="60" fill="#0f172a"/>
+  <text x="20" y="35" font-family="Montserrat, Arial, sans-serif" font-size="24" font-weight="700" fill="url(#gradient)">
+    AADIZ.FX
+  </text>
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00BFFF"/>
+      <stop offset="100%" stop-color="#66D9FF"/>
+    </linearGradient>
+  </defs>
+</svg>

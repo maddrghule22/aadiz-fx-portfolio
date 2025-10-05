@@ -19,6 +19,7 @@ A stunning, cinematic portfolio website built for professional videographers and
 - **SEO Optimized** with proper meta tags and structured data
 - **Performance Optimized** with Next.js Image component
 - **Content Management** system for easy updates
+- **Scroll-Based Video Autoplay** for enhanced user experience
 
 ## 🎨 Design System
 
@@ -31,11 +32,41 @@ A stunning, cinematic portfolio website built for professional videographers and
 - **Headlines**: Montserrat (400-900)
 - **Body Text**: Inter (300-700)
 
+### Logo
+- **Name**: Aadiz.FX
+- **Implementation**: SVG logo file with gradient effect
+- **File Location**: `public/images/logo.svg`
+- **Usage**: Featured prominently in the header and footer
+- **Components**: Implemented in `src/components/Navigation.tsx` and `src/components/Footer.tsx`
+
 ### Animations
 - Smooth scroll animations
 - Hover effects and micro-interactions
 - Cinematic transitions between sections
 - Glass morphism effects
+
+## 🎵 Media Features
+
+### Video Player
+The custom video player includes:
+- **Responsive design** that works on all device sizes
+- **Custom controls** with play/pause and mute/unmute buttons
+- **Poster image** support for better loading experience
+- **Loop and autoplay** options
+- **Scroll-based autoplay** functionality (videos play when in viewport)
+
+### Scroll-Based Video Autoplay
+- Videos automatically play when they come into view
+- Videos automatically pause when scrolled out of view
+- Improves user experience by reducing manual interaction
+- Conserves bandwidth and battery when videos are not visible
+- Works on both the homepage hero video and project detail pages
+
+### Performance Optimization
+- **Lazy loading** for off-screen videos
+- **Preloading** strategies for critical video assets
+- **Adaptive streaming** based on network conditions
+- **Efficient codecs** for faster loading times
 
 ## 🚀 Getting Started
 
@@ -90,6 +121,16 @@ src/
 │   └── cms.ts             # Content management utilities
 └── types/                 # TypeScript type definitions
     └── index.ts           # Core types
+
+public/
+├── images/                 # Image assets
+│   ├── clients/           # Client logos
+│   ├── projects/          # Project thumbnails
+│   ├── testimonials/      # Testimonial avatars
+│   └── logo.svg           # Aadiz.FX logo
+├── icons/                 # Tool and software icons
+├── videos/                # Project videos
+└── favicon.ico            # Site favicon
 ```
 
 ## 📊 Content Management
@@ -212,6 +253,7 @@ All components adapt gracefully across device sizes with optimized layouts and t
 For questions or support regarding this project:
 - Email: adityashinde6050@gmail.com
 - Contact: +91 81809 99435
+- Location: Pirangut, Pune
 - Documentation: Check this README and code comments
 - Issues: Create an issue in the repository
 
