@@ -184,6 +184,11 @@ export default function Footer() {
               © {currentYear} Aditya Shinde. All rights reserved.
             </p>
 
+            {/* Made by Unique Cooperation */}
+            <p className="body-sm text-neutral-400">
+              Made with ❤️ by Unique Cooperation
+            </p>
+
             {/* Social Links */}
             <div className="flex items-center space-x-6">
               {socialLinks.map((social) => (
@@ -210,6 +215,10 @@ export default function Footer() {
             </button>
           </div>
         </div>
+      </div>
+    </footer>
+  )
+}        </div>
       </div>
     </footer>
   )
