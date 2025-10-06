@@ -253,7 +253,7 @@ All components adapt gracefully across device sizes with optimized layouts and t
 For questions or support regarding this project:
 - Email: adityashinde6050@gmail.com
 - Contact: +91 81809 99435
-- Location: Pirangut, Pune
+- Location: Pune
 - Documentation: Check this README and code comments
 - Issues: Create an issue in the repository
 

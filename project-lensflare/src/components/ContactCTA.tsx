@@ -80,7 +80,7 @@ export default function ContactCTA() {
         {/* Location */}
         <div className="mt-8 pt-8 border-t border-primary-700/50 animate-on-scroll">
           <p className="body-sm text-neutral-400">
-            📍 Based in Pirangut, Pune • Available for projects worldwide
+            📍 Based in Pune • Available for projects worldwide
           </p>
         </div>
       </div>

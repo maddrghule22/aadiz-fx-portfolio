@@ -23,7 +23,7 @@ const faqs = [
   {
     id: 4,
     question: "Do you work with clients outside of Pune?",
-    answer: "Absolutely! While I'm based in Pirangut, Pune, I work with clients across India and internationally. I can travel for shoots or work remotely for post-production projects. For international clients, I utilize secure file transfer systems and video conferencing tools to maintain clear communication throughout the project lifecycle."
+    answer: "Absolutely! While I'm based in Pune, I work with clients across India and internationally. I can travel for shoots or work remotely for post-production projects. For international clients, I utilize secure file transfer systems and video conferencing tools to maintain clear communication throughout the project lifecycle."
   },
   {
     id: 5,

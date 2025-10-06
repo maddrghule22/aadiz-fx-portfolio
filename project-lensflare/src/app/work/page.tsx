@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import SimpleVideoPlayer from '@/components/ui/SimpleVideoPlayer'
 
 export default function WorkPage() {
   const fadeInUp = {
@@ -22,37 +23,43 @@ export default function WorkPage() {
       title: "BMW X1 Commercial",
       category: "Automotive",
       description: "High-end automotive commercial showcasing the BMW X1 with cinematic visuals and dynamic camera movements.",
-      image: "/images/placeholder-image.jpg"
+      videoUrl: "/videos/bmw-x1.mp4",
+      thumbnailUrl: "/images/projects/bmw-x1-thumbnail.jpg"
     },
     {
       title: "Ducati Xdiavel Showcase",
       category: "Motorcycle",
       description: "Powerful motorcycle showcase featuring the Ducati Xdiavel with dramatic lighting and precision shots.",
-      image: "/images/placeholder-image.jpg"
+      videoUrl: "/videos/ducati-xdiavel.mp4",
+      thumbnailUrl: "/images/projects/ducati-thumbnail.jpg"
     },
     {
       title: "Fashion Editorial",
       category: "Fashion",
       description: "Stylish fashion video featuring contemporary fashion with artistic cinematography and advanced color grading.",
-      image: "/images/placeholder-image.jpg"
+      videoUrl: "/videos/fashion-edit.mp4",
+      thumbnailUrl: "/images/projects/fashion-thumbnail.jpg"
     },
     {
       title: "Toyota Fortuner Campaign",
       category: "Automotive",
       description: "Rugged SUV commercial highlighting the Toyota Fortuner's capabilities with adventure-focused storytelling.",
-      image: "/images/placeholder-image.jpg"
+      videoUrl: "/videos/fortuner.mp4",
+      thumbnailUrl: "/images/projects/fortuner-thumbnail.jpg"
     },
     {
       title: "KTM Performance Video",
       category: "Motorcycle",
       description: "High-energy motorcycle showcase featuring KTM bikes with fast-paced editing and dynamic angles.",
-      image: "/images/placeholder-image.jpg"
+      videoUrl: "/videos/ktm-2.mp4",
+      thumbnailUrl: "/images/projects/ktm-thumbnail.jpg"
     },
     {
       title: "Zen Creative Project",
       category: "Experimental",
       description: "Artistic and meditative video project exploring themes of balance and tranquility through visual storytelling.",
-      image: "/images/placeholder-image.jpg"
+      videoUrl: "/videos/zen.mp4",
+      thumbnailUrl: "/images/projects/zen-thumbnail.jpg"
     }
   ]
 
@@ -128,7 +135,13 @@ export default function WorkPage() {
                 variants={fadeInUp}
                 className="glass rounded-2xl overflow-hidden hover-lift"
               >
-                <div className="bg-gray-200 border-2 border-dashed w-full h-48" />
+                <div className="w-full h-48">
+                  <SimpleVideoPlayer
+                    src={project.videoUrl}
+                    poster={project.thumbnailUrl}
+                    className="w-full h-full"
+                  />
+                </div>
                 <div className="p-6">
                   <span className="text-sm font-medium text-accent-500">
                     {project.category}
@@ -161,7 +174,7 @@ export default function WorkPage() {
           >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
               <div>
-                <div className="text-4xl font-bold text-accent-500 mb-2">50+</div>
+                <div className="text-4xl font-bold text-accent-500 mb-2">200+</div>
                 <div className="body-md text-neutral-300">Projects Completed</div>
               </div>
               <div>

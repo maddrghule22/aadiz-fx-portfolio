@@ -217,8 +217,8 @@ export const socialLinks: SocialLink[] = [
 
 // Site Metadata
 export const siteMetadata = {
-  title: 'Aadiz.FX - Professional Videographer & VFX Artist | Pirangut, Pune',
-  description: 'Professional videographer and VFX artist from Pirangut, Pune, creating stunning automotive commercials, fashion editorials, and creative visual content for brands like BMW, Ducati, Toyota, KTM, and Yamaha.',
+  title: 'Aadiz.FX - Professional Videographer & VFX Artist | Pune',
+  description: 'Professional videographer and VFX artist from Pune, creating stunning automotive commercials, fashion editorials, and creative visual content for brands like BMW, Ducati, Toyota, KTM, and Yamaha.',
   keywords: ['videographer pune', 'VFX artist', 'automotive commercial', 'fashion video', 'BMW commercial', 'Ducati video', 'video editing pune', 'cinematography', 'post-production'],
   author: 'Aadiz.FX',
   siteUrl: 'https://aadiz.fx',

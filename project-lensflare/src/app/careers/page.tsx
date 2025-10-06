@@ -21,13 +21,13 @@ export default function CareersPage() {
     {
       title: "Junior Videographer",
       type: "Full-time",
-      location: "Pirangut, Pune",
+      location: "Pune",
       description: "Assist in filming and editing projects under the guidance of senior team members."
     },
     {
       title: "Post-Production Editor",
       type: "Full-time",
-      location: "Pirangut, Pune",
+      location: "Pune",
       description: "Edit and color grade video content using industry-standard software."
     },
     {

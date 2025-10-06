@@ -27,7 +27,7 @@ export default function HeroSection() {
   }, [])
 
   const scrollToNext = () => {
-    const nextSection = document.getElementById('featured-work')
+    const nextSection = document.getElementById('featured-projects')
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth' })
     }
@@ -39,7 +39,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-0">
         <VideoPlayer
           src="/videos/bmw-x1.mp4"
-          poster="/images/hero-poster.jpg"
+          poster="/images/projects/bmw-x1-thumbnail.jpg"
           autoPlay
           muted
           loop
@@ -47,6 +47,9 @@ export default function HeroSection() {
           playOnScroll={true} // Enable scroll-based play
           className="w-full h-full"
         />
+        {/* Fallback background image in case video fails */}
+        <div className="absolute inset-0 z-[-1] bg-cover bg-center bg-no-repeat" 
+             style={{ backgroundImage: "url('/images/projects/bmw-x1-thumbnail.jpg')" }} />
       </div>
 
       {/* Cinematic Overlay */}
@@ -62,8 +65,8 @@ export default function HeroSection() {
         </h1>
 
         {/* Subtitle */}
-        <p className="body-lg text-neutral-200 mb-8 max-w-2xl mx-auto animate-on-scroll">
-          Professional videographer and VFX artist from Pirangut, Pune, creating stunning visual stories 
+        <p className="body-lg text-neutral-200 max-w-2xl mx-auto animate-on-scroll">
+          Professional videographer and VFX artist from Pune, creating stunning visual stories 
           for automotive brands, fashion, and creative projects worldwide.
         </p>
 
@@ -88,7 +91,7 @@ export default function HeroSection() {
         {/* Featured Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16 animate-on-scroll">
           <div className="text-center">
-            <div className="heading-md text-accent-500 mb-2">50+</div>
+            <div className="heading-md text-accent-500 mb-2">200+</div>
             <div className="body-md text-neutral-300">Projects Completed</div>
           </div>
           <div className="text-center">

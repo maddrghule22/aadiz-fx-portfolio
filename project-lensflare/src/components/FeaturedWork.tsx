@@ -4,109 +4,59 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Play, ExternalLink } from 'lucide-react'
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  client: string;
-  thumbnailUrl: string;
-  year: number;
-  duration: string;
-  tags: string[];
-  featured: boolean;
-}
+import SimpleVideoPlayer from '@/components/ui/SimpleVideoPlayer'
+import { Project } from '@/types'
 
 interface FeaturedWorkProps {
   projects?: Project[];
 }
 
 export default function FeaturedWork({ projects = [] }: FeaturedWorkProps) {
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null)
   const [activeProjectIndex, setActiveProjectIndex] = useState(0)
+  const [showVideo, setShowVideo] = useState<{[key: string]: boolean}>({})
   
   // Get featured projects or use provided projects
   const featuredProjects = projects.length > 0 
-    ? projects 
-    : [
-        {
-          id: '1',
-          title: 'BMW M Series Commercial',
-          description: 'High-octane commercial showcasing the power and precision of BMW\'s M Series lineup.',
-          category: 'commercial',
-          client: 'BMW',
-          thumbnailUrl: '/images/projects/bmw-m-series.jpg',
-          year: 2023,
-          duration: '2:45',
-          tags: ['Automotive', 'CGI', 'Motion Graphics'],
-          featured: true
-        },
-        {
-          id: '2',
-          title: 'Ducati Desert X Launch',
-          description: 'Cinematic launch video highlighting the adventurous spirit of the new Ducati Desert X.',
-          category: 'commercial',
-          client: 'Ducati',
-          thumbnailUrl: '/images/projects/ducati-desert-x.jpg',
-          year: 2023,
-          duration: '1:30',
-          tags: ['Motorcycle', 'Adventure', 'VFX'],
-          featured: true
-        },
-        {
-          id: '3',
-          title: 'Toyota Hybrid Technology',
-          description: 'Innovative explainer video demonstrating Toyota\'s cutting-edge hybrid technology.',
-          category: 'vfx-breakdown',
-          client: 'Toyota',
-          thumbnailUrl: '/images/projects/toyota-hybrid.jpg',
-          year: 2023,
-          duration: '3:15',
-          tags: ['Automotive', 'Technology', 'Animation'],
-          featured: true
-        },
-        {
-          id: '4',
-          title: 'Audi e-tron GT Reveal',
-          description: 'Futuristic reveal of Audi\'s all-electric performance sedan with stunning VFX.',
-          category: 'commercial',
-          client: 'Audi',
-          thumbnailUrl: '/images/projects/audi-etron.jpg',
-          year: 2023,
-          duration: '2:10',
-          tags: ['Electric', 'Luxury', 'CGI'],
-          featured: true
-        }
-      ];
+    ? projects.filter(project => project.featured)
+    : []
 
-  // Autoplay functionality
+  // Autoplay functionality - continuous autoplay without user interaction
   useEffect(() => {
+    if (featuredProjects.length <= 1) return;
+    
     const interval = setInterval(() => {
-      // Only auto-advance if no project is being hovered
-      if (hoveredProject === null) {
-        setActiveProjectIndex((prevIndex) => 
-          prevIndex === featuredProjects.length - 1 ? 0 : prevIndex + 1
-        );
-      }
-    }, 3000); // Change project every 3 seconds
+      setActiveProjectIndex((prevIndex) => 
+        prevIndex === featuredProjects.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change project every 5 seconds
 
     return () => clearInterval(interval);
-  }, [hoveredProject, featuredProjects.length]);
+  }, [featuredProjects.length]);
 
-  // Update active project when hovered
-  const handleProjectHover = (projectId: string, index: number) => {
-    setHoveredProject(projectId);
-    setActiveProjectIndex(index);
+  const toggleVideo = (projectId: string) => {
+    // When toggling video, also reset any error states
+    setShowVideo(prev => ({
+      ...prev,
+      [projectId]: !prev[projectId]
+    }));
   };
 
-  // Reset to auto when mouse leaves
-  const handleMouseLeave = () => {
-    setHoveredProject(null);
-  };
+  // Add error boundary
+  if (!featuredProjects || featuredProjects.length === 0) {
+    return (
+      <section id="featured-projects" className="section-spacing bg-section-gradient">
+        <div className="container-padding max-w-7xl mx-auto">
+          <div className="text-center">
+            <h2 className="heading-lg text-neutral-100 mb-6">Featured Work</h2>
+            <p className="body-lg text-neutral-300">No featured projects available at the moment.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section id="featured-work" className="section-spacing bg-section-gradient">
+    <section id="featured-projects" className="section-spacing bg-section-gradient">
       <div className="container-padding max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -127,28 +77,39 @@ export default function FeaturedWork({ projects = [] }: FeaturedWorkProps) {
               className={`group relative overflow-hidden rounded-xl bg-primary-800 hover-lift animate-on-scroll ${
                 activeProjectIndex === index ? 'ring-2 ring-accent-500' : ''
               }`}
-              onMouseEnter={() => handleProjectHover(project.id, index)}
-              onMouseLeave={handleMouseLeave}
               style={{ animationDelay: `${index * 150}ms` }}
             >
-              {/* Project Thumbnail */}
+              {/* Project Media */}
               <div className="relative aspect-video overflow-hidden">
-                <Image
-                  src={project.thumbnailUrl}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-900/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-                
-                {/* Play Button */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-accent-500/90 backdrop-blur-sm rounded-full flex items-center justify-center transform scale-0 group-hover:scale-100 transition-all duration-300 hover:bg-accent-400">
-                    <Play className="w-6 h-6 text-primary-900 ml-1" fill="currentColor" />
-                  </div>
-                </div>
+                {showVideo[project.id] ? (
+                  <SimpleVideoPlayer
+                    src={project.videoUrl}
+                    poster={project.thumbnailUrl}
+                    className="w-full h-full"
+                  />
+                ) : (
+                  <>
+                    <Image
+                      src={project.thumbnailUrl}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-900/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                    
+                    {/* Play Button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div 
+                        className="w-16 h-16 bg-accent-500/90 backdrop-blur-sm rounded-full flex items-center justify-center transform scale-0 group-hover:scale-100 transition-all duration-300 hover:bg-accent-400 cursor-pointer"
+                        onClick={() => toggleVideo(project.id)}
+                      >
+                        <Play className="w-6 h-6 text-primary-900 ml-1" fill="currentColor" />
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 {/* Category Badge */}
                 <div className="absolute top-4 left-4">

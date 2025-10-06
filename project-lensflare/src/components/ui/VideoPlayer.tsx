@@ -4,14 +4,14 @@ import { useState, useRef, useEffect } from 'react'
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react'
 
 interface VideoPlayerProps {
-  src: string
-  poster?: string
-  autoPlay?: boolean
-  muted?: boolean
-  loop?: boolean
-  controls?: boolean
-  className?: string
-  playOnScroll?: boolean // New prop for scroll-based play
+  src: string | { src: string; type: string }[];
+  poster?: string;
+  autoPlay?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  controls?: boolean;
+  className?: string;
+  playOnScroll?: boolean; // New prop for scroll-based play
 }
 
 export default function VideoPlayer({
@@ -29,50 +29,151 @@ export default function VideoPlayer({
   const [isMuted, setIsMuted] = useState(muted)
   const [showControls, setShowControls] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [error, setError] = useState<string | null>(null) // Added error state
+  const [error, setError] = useState<string | null>(null)
+  const [userInteracted, setUserInteracted] = useState(false) // Track user interaction
+
+  // Log when component mounts
+  useEffect(() => {
+    console.log('VideoPlayer component mounted')
+    return () => {
+      console.log('VideoPlayer component unmounted')
+    }
+  }, [])
 
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    const handleLoadedData = () => setIsLoaded(true)
-    const handlePlay = () => setIsPlaying(true)
-    const handlePause = () => setIsPlaying(false)
-    const handleError = (e: any) => { // Added error handler
-      console.error('Video error:', e)
-      setError('Failed to load video. Please check the console for details.')
+    // Check if video file exists
+    if (typeof src === 'string') {
+      console.log('Checking video file:', src)
+      fetch(src, { method: 'HEAD' })
+        .then(response => {
+          console.log('Video file check response:', response.status, response.statusText)
+          if (!response.ok) {
+            throw new Error(`Video file not found: ${src} (Status: ${response.status})`)
+          }
+          console.log('Video file exists')
+        })
+        .catch(error => {
+          console.error('Video file check failed:', error)
+          setError(`Video file not accessible: ${error.message}`)
+        })
     }
 
+    const video = videoRef.current
+    if (!video) {
+      console.log('Video element not available yet')
+      return
+    }
+
+    console.log('Setting up video element')
+
+    const handleLoadedData = () => {
+      console.log('Video loaded successfully')
+      setIsLoaded(true)
+    }
+    
+    const handlePlay = () => {
+      console.log('Video play event')
+      setIsPlaying(true)
+    }
+    
+    const handlePause = () => {
+      console.log('Video pause event')
+      setIsPlaying(false)
+    }
+    
+    const handleError = (e: any) => {
+      console.error('Video error event:', e)
+      const error = video?.error;
+      let errorMessage = 'Failed to load video. Please check the console for details.'
+      
+      if (error) {
+        console.error('Video error details:', error)
+        switch (error.code) {
+          case error.MEDIA_ERR_ABORTED:
+            errorMessage = 'Video download aborted by user.'
+            break
+          case error.MEDIA_ERR_NETWORK:
+            errorMessage = 'Network error while loading video.'
+            break
+          case error.MEDIA_ERR_DECODE:
+            errorMessage = 'Video decode error. The video may be corrupted.'
+            break
+          case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            errorMessage = 'Video format not supported by your browser.'
+            break
+          default:
+            errorMessage = `Unknown video error: ${error.message || 'Unknown error'}`
+        }
+      }
+      
+      setError(errorMessage)
+    }
+
+    const handleLoadStart = () => {
+      console.log('Video load start')
+    }
+
+    const handleCanPlay = () => {
+      console.log('Video can play')
+    }
+
+    video.addEventListener('loadstart', handleLoadStart)
+    video.addEventListener('canplay', handleCanPlay)
     video.addEventListener('loadeddata', handleLoadedData)
     video.addEventListener('play', handlePlay)
     video.addEventListener('pause', handlePause)
-    video.addEventListener('error', handleError) // Added error listener
+    video.addEventListener('error', handleError)
+
+    // Log video properties
+    console.log('Video element properties:', {
+      src: video.src,
+      readyState: video.readyState,
+      networkState: video.networkState,
+      error: video.error
+    })
 
     // If autoplay is enabled, start playing
     if (autoPlay) {
-      video.play().catch(error => {
+      console.log('Attempting to autoplay video')
+      video.play().then(() => {
+        console.log('Video autoplay successful')
+      }).catch(error => {
         console.warn('Autoplay failed:', error)
-        setError('Autoplay blocked by browser. Click play to start video.')
+        let errorMessage = 'Autoplay blocked by browser. Click play to start video.'
+        
+        // Check if it's a specific autoplay policy error
+        if (error.name === 'NotAllowedError') {
+          errorMessage = 'Autoplay prevented by browser policy. Click play to start video.'
+        } else if (error.name === 'NotSupportedError') {
+          errorMessage = 'Video format not supported. Please try a different browser.'
+        }
+        
+        setError(errorMessage)
       })
     }
 
     return () => {
-      video.removeEventListener('loadeddata', handleLoadedData)
-      video.removeEventListener('play', handlePlay)
-      video.removeEventListener('pause', handlePause)
-      video.removeEventListener('error', handleError) // Clean up error listener
+      if (video) {
+        console.log('Cleaning up video event listeners')
+        video.removeEventListener('loadstart', handleLoadStart)
+        video.removeEventListener('canplay', handleCanPlay)
+        video.removeEventListener('loadeddata', handleLoadedData)
+        video.removeEventListener('play', handlePlay)
+        video.removeEventListener('pause', handlePause)
+        video.removeEventListener('error', handleError)
+      }
     }
-  }, [autoPlay])
+  }, [autoPlay, src])
 
   // Scroll-based play/pause functionality
   useEffect(() => {
-    if (!playOnScroll) return
+    if (!playOnScroll || userInteracted) return // Don't interfere if user has interacted
 
     const video = videoRef.current
     if (!video) return
 
     const handleScroll = () => {
-      if (!video) return
+      if (!video || userInteracted) return // Don't interfere if user has interacted
 
       const rect = video.getBoundingClientRect()
       const windowHeight = window.innerHeight || document.documentElement.clientHeight
@@ -82,7 +183,7 @@ export default function VideoPlayer({
         // Video is in view, play it
         video.play().catch(error => {
           console.warn('Play failed:', error)
-          if (!error.message.includes('play() failed')) { // Avoid duplicate errors
+          if (!error.message.includes('play() failed')) {
             setError('Failed to play video. Please check the console for details.')
           }
         })
@@ -100,11 +201,13 @@ export default function VideoPlayer({
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [playOnScroll])
+  }, [playOnScroll, userInteracted])
 
   const togglePlay = () => {
     const video = videoRef.current
     if (!video) return
+
+    setUserInteracted(true) // Mark that user has interacted
 
     if (isPlaying) {
       video.pause()
@@ -119,6 +222,8 @@ export default function VideoPlayer({
   const toggleMute = () => {
     const video = videoRef.current
     if (!video) return
+
+    setUserInteracted(true) // Mark that user has interacted
 
     video.muted = !video.muted
     setIsMuted(video.muted)
@@ -136,12 +241,26 @@ export default function VideoPlayer({
           </div>
           <h3 className="heading-sm text-neutral-100 mb-2">Video Error</h3>
           <p className="body-md text-neutral-300 mb-4">{error}</p>
-          <button 
-            onClick={() => window.location.reload()}
-            className="btn-secondary"
-          >
-            Reload Page
-          </button>
+          <div className="flex flex-col gap-2">
+            <button 
+              onClick={() => window.location.reload()}
+              className="btn-secondary"
+            >
+              Reload Page
+            </button>
+            <button 
+              onClick={() => {
+                setError(null);
+                setIsLoaded(false);
+                setIsPlaying(autoPlay);
+                setIsMuted(muted);
+                setUserInteracted(false);
+              }}
+              className="btn-primary"
+            >
+              Retry Video
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -155,19 +274,30 @@ export default function VideoPlayer({
     >
       <video
         ref={videoRef}
-        src={src}
         poster={poster}
         autoPlay={autoPlay}
         muted={muted}
         loop={loop}
         playsInline
         className="w-full h-full object-cover"
-      />
+      >
+        {typeof src === 'string' ? (
+          <source src={src} type="video/mp4" />
+        ) : (
+          src.map((source, index) => (
+            <source key={index} src={source.src} type={source.type} />
+          ))
+        )}
+        <p>Your browser does not support the video tag.</p>
+      </video>
 
       {/* Loading State */}
-      {!isLoaded && (
+      {!isLoaded && !error && (
         <div className="absolute inset-0 bg-primary-800 flex items-center justify-center">
-          <div className="w-12 h-12 border-2 border-accent-500 border-t-transparent rounded-full animate-spin" />
+          <div className="text-center">
+            <div className="w-12 h-12 border-2 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-neutral-300">Loading video...</p>
+          </div>
         </div>
       )}
 

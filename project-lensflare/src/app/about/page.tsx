@@ -37,7 +37,7 @@ export default function AboutPage() {
             variants={fadeInUp}
             className="body-lg text-neutral-200 max-w-3xl mx-auto"
           >
-            Professional videographer and VFX artist from Pirangut, Pune, creating stunning visual stories 
+            Professional videographer and VFX artist from Pune, creating stunning visual stories 
             for automotive brands, fashion, and creative projects worldwide.
           </motion.p>
         </motion.div>

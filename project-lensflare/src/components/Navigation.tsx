@@ -57,21 +57,18 @@ export default function Navigation() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-1">
               {navigationItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative font-medium transition-all duration-300 hover:text-accent-500 ${
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:text-accent-500 ${
                     pathname === item.href
-                      ? 'text-accent-500'
-                      : 'text-neutral-100'
+                      ? 'text-accent-500 bg-primary-800/50'
+                      : 'text-neutral-300 hover:bg-primary-800/30'
                   }`}
                 >
                   {item.label}
-                  {pathname === item.href && (
-                    <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-accent-500 rounded-full" />
-                  )}
                 </Link>
               ))}
             </div>

@@ -43,8 +43,8 @@ const contactInfo = [
   },
   {
     icon: MapPin,
-    label: 'Pirangut, Pune, Maharashtra',
-    href: 'https://maps.google.com/?q=Pirangut,+Pune,+Maharashtra',
+    label: 'Pune, Maharashtra',
+    href: 'https://maps.google.com/?q=Pune,+Maharashtra',
     description: 'Based in the heart of Pune, serving clients globally'
   },
   {
@@ -77,7 +77,7 @@ export default function Footer() {
               ADITYA SHINDE
             </Link>
             <p className="body-md text-neutral-300 mb-6 max-w-md">
-              Professional videographer and VFX artist from Pirangut, Pune, creating stunning visual content 
+              Professional videographer and VFX artist from Pune, creating stunning visual content 
               for automotive brands, fashion, and creative projects worldwide.
             </p>
 
@@ -215,10 +215,6 @@ export default function Footer() {
             </button>
           </div>
         </div>
-      </div>
-    </footer>
-  )
-}        </div>
       </div>
     </footer>
   )
