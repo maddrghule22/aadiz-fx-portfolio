@@ -59,7 +59,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-primary-800 border-t border-primary-700/50">
+    <footer className="bg-primary-800 border-t border-primary-700/50" role="contentinfo">
       <div className="container-padding max-w-7xl mx-auto">
         {/* Main Footer Content */}
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
@@ -68,11 +68,14 @@ export default function Footer() {
             <Link
               href="/"
               className="text-2xl font-headline font-bold text-gradient mb-4 inline-flex items-center"
+              aria-label="Aditya Shinde - Home"
             >
               <img 
                 src="/images/logo.svg" 
                 alt="Aditya Shinde Logo" 
                 className="h-8 w-auto mr-2"
+                width={32}
+                height={32}
               />
               ADITYA SHINDE
             </Link>
@@ -89,9 +92,10 @@ export default function Footer() {
                   <div key={item.label} className="group">
                     <Link
                       href={item.href}
-                      className="flex items-start space-x-3 text-neutral-300 hover:text-accent-500 transition-colors duration-300"
+                      className="flex items-start space-x-3 text-neutral-300 hover:text-accent-500 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent-500 rounded"
+                      aria-label={`${item.label} - ${item.description}`}
                     >
-                      <IconComponent className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                      <IconComponent className="w-5 h-5 mt-0.5 flex-shrink-0" aria-hidden="true" />
                       <div>
                         <span className="body-sm font-medium">{item.label}</span>
                         <p className="text-xs text-neutral-400 mt-1">{item.description}</p>
@@ -105,20 +109,20 @@ export default function Footer() {
 
           {/* Work Links */}
           <div>
-            <h3 className="heading-xs text-neutral-100 mb-4 flex items-center">
-              <Film className="w-4 h-4 mr-2" />
+            <h3 className="heading-xs text-neutral-100 mb-4 flex items-center" id="footer-work-links">
+              <Film className="w-4 h-4 mr-2" aria-hidden="true" />
               Work
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3" aria-labelledby="footer-work-links">
               {footerLinks.work.map((link) => {
                 const IconComponent = link.icon
                 return (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="body-sm text-neutral-300 hover:text-accent-500 transition-colors duration-300 flex items-center"
+                      className="body-sm text-neutral-300 hover:text-accent-500 transition-colors duration-300 flex items-center focus:outline-none focus:ring-2 focus:ring-accent-500 rounded p-1"
                     >
-                      <IconComponent className="w-4 h-4 mr-2" />
+                      <IconComponent className="w-4 h-4 mr-2" aria-hidden="true" />
                       {link.label}
                     </Link>
                   </li>
@@ -129,20 +133,20 @@ export default function Footer() {
 
           {/* Services Links */}
           <div>
-            <h3 className="heading-xs text-neutral-100 mb-4 flex items-center">
-              <Zap className="w-4 h-4 mr-2" />
+            <h3 className="heading-xs text-neutral-100 mb-4 flex items-center" id="footer-services-links">
+              <Zap className="w-4 h-4 mr-2" aria-hidden="true" />
               Services
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3" aria-labelledby="footer-services-links">
               {footerLinks.services.map((link) => {
                 const IconComponent = link.icon
                 return (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="body-sm text-neutral-300 hover:text-accent-500 transition-colors duration-300 flex items-center"
+                      className="body-sm text-neutral-300 hover:text-accent-500 transition-colors duration-300 flex items-center focus:outline-none focus:ring-2 focus:ring-accent-500 rounded p-1"
                     >
-                      <IconComponent className="w-4 h-4 mr-2" />
+                      <IconComponent className="w-4 h-4 mr-2" aria-hidden="true" />
                       {link.label}
                     </Link>
                   </li>
@@ -153,20 +157,20 @@ export default function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="heading-xs text-neutral-100 mb-4 flex items-center">
-              <User className="w-4 h-4 mr-2" />
+            <h3 className="heading-xs text-neutral-100 mb-4 flex items-center" id="footer-company-links">
+              <User className="w-4 h-4 mr-2" aria-hidden="true" />
               Company
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3" aria-labelledby="footer-company-links">
               {footerLinks.company.map((link) => {
                 const IconComponent = link.icon
                 return (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="body-sm text-neutral-300 hover:text-accent-500 transition-colors duration-300 flex items-center"
+                      className="body-sm text-neutral-300 hover:text-accent-500 transition-colors duration-300 flex items-center focus:outline-none focus:ring-2 focus:ring-accent-500 rounded p-1"
                     >
-                      <IconComponent className="w-4 h-4 mr-2" />
+                      <IconComponent className="w-4 h-4 mr-2" aria-hidden="true" />
                       {link.label}
                     </Link>
                   </li>
@@ -186,7 +190,7 @@ export default function Footer() {
 
             {/* Made by Unique Cooperation */}
             <p className="body-sm text-neutral-400">
-              Made with ❤️ by Unique Cooperation
+              Made with ❤️ by <a href="https://uniqueco.in" target="_blank" rel="noopener noreferrer" className="text-accent-500 hover:underline focus:outline-none focus:ring-2 focus:ring-accent-500 rounded">uniqueco.in</a>
             </p>
 
             {/* Social Links */}
@@ -197,7 +201,7 @@ export default function Footer() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-neutral-400 hover:text-accent-500 transition-colors duration-300 hover:scale-110 transform flex items-center"
+                  className="text-neutral-400 hover:text-accent-500 transition-colors duration-300 hover:scale-110 transform flex items-center focus:outline-none focus:ring-2 focus:ring-accent-500 rounded-full p-1"
                   aria-label={`Follow us on ${social.platform}`}
                 >
                   <span className="body-sm">{social.platform}</span>
@@ -208,7 +212,7 @@ export default function Footer() {
             {/* Back to Top */}
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-neutral-400 hover:text-accent-500 transition-colors duration-300 body-sm flex items-center"
+              className="text-neutral-400 hover:text-accent-500 transition-colors duration-300 body-sm flex items-center focus:outline-none focus:ring-2 focus:ring-accent-500 rounded p-1"
               aria-label="Back to top"
             >
               Back to Top ↑

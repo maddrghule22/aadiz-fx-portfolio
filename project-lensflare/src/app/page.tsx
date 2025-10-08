@@ -9,7 +9,6 @@ import TestimonialsSection from '@/components/TestimonialsSection'
 import ClientsSection from '@/components/ClientsSection'
 import ContactCTA from '@/components/ContactCTA'
 import { fetchFeaturedProjects, fetchServices, fetchTestimonials, fetchClients } from '@/lib/api'
-import { projects } from '@/data'
 
 export default function HomePage() {
   const [featuredProjects, setFeaturedProjects] = useState([])
@@ -17,7 +16,7 @@ export default function HomePage() {
   const [testimonials, setTestimonials] = useState([])
   const [clients, setClients] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,9 +35,9 @@ export default function HomePage() {
         setTestimonials(testimonialsData)
         setClients(clientsData)
         setLoading(false)
-      } catch (error) {
+      } catch (error: unknown) {
         console.error('Error fetching data:', error)
-        setError(error as any)
+        setError(error instanceof Error ? error : new Error('An unknown error occurred'))
         setLoading(false)
       }
     }
@@ -74,9 +73,6 @@ export default function HomePage() {
     )
   }
 
-  // Get featured projects for the featured work section
-  const featuredWorkProjects = projects.filter(project => project.featured)
-
   return (
     <>
       <HeroSection />
@@ -87,7 +83,7 @@ export default function HomePage() {
           <p className="text-neutral-300 text-center mb-8">Showcasing my latest client work including automotive commercials, fashion editorials, and creative projects for leading brands.</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {featuredWorkProjects.map((project) => (
+            {featuredProjects.map((project: any) => (
               <div key={project.id} className="bg-primary-800 rounded-xl overflow-hidden">
                 <h2 className="heading-sm text-neutral-100 p-4">{project.title}</h2>
                 <div className="aspect-video">
@@ -98,14 +94,16 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="p-4">
-                  <p className="body-sm text-neutral-300">{project.description}</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="bg-primary-700/50 text-neutral-300 px-2 py-1 rounded text-xs">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  <p className="body-sm text-neutral-300 line-clamp-2">{project.description}</p>
+                  {project.tags && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {project.tags.slice(0, 3).map((tag: string) => (
+                        <span key={tag} className="bg-primary-700/50 text-neutral-300 px-2 py-1 rounded text-xs">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

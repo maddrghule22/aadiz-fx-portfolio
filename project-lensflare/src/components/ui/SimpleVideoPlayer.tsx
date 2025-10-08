@@ -6,36 +6,82 @@ interface SimpleVideoPlayerProps {
   src: string
   poster?: string
   className?: string
+  lazy?: boolean
 }
 
 export default function SimpleVideoPlayer({
   src,
   poster,
-  className = ''
+  className = '',
+  lazy = true
 }: SimpleVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [retryCount, setRetryCount] = useState(0)
+  const [isVisible, setIsVisible] = useState(!lazy)
+  const [isClient, setIsClient] = useState(false)
+
+  // Set isClient to true on mount to avoid hydration issues
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    if (!lazy || !isClient) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+            observer.disconnect()
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [lazy, isClient])
 
   useEffect(() => {
+    if (!isClient || !isVisible) return
+
+    // Reset loading state when source changes
+    setIsLoaded(false);
+    setError(null);
+
+    const video = videoRef.current
+    if (!video) return
+
+    // Update the video source directly when it changes
+    if (video.src !== window.location.origin + src) {
+      video.src = src
+    }
+
     // Instead of failing on HEAD request, let's just log and proceed
     fetch(src, { method: 'HEAD' })
       .then(response => {
         if (!response.ok) {
-          console.warn(`Video file HEAD request failed: ${src}`, response.status);
+          console.warn(`Video file HEAD request failed: ${src}`, response.status)
           // We'll still try to load the video even if HEAD fails
         } else {
           console.log('Video file exists:', src)
         }
       })
       .catch(error => {
-        console.warn('Video file check failed (this is okay, will still try to load):', error);
+        console.warn('Video file check failed (this is okay, will still try to load):', error)
         // We'll still try to load the video even if HEAD fails
       })
-
-    const video = videoRef.current
-    if (!video) return
 
     const handleLoadedData = () => {
       console.log('Video loaded successfully:', src)
@@ -46,12 +92,12 @@ export default function SimpleVideoPlayer({
       console.error('Video error:', e)
       
       // Safely access video error properties
-      const videoElement = e.target || videoRef.current;
+      const videoElement = e.target || videoRef.current
       let errorMessage = 'Failed to load video'
       
       if (videoElement?.error) {
-        const error = videoElement.error;
-        console.log('Video error details:', error);
+        const error = videoElement.error
+        console.log('Video error details:', error)
         
         // Check if error object has the expected properties
         if (typeof error === 'object' && error !== null) {
@@ -132,7 +178,18 @@ export default function SimpleVideoPlayer({
         video.removeEventListener('waiting', handleWaiting)
       }
     }
-  }, [src, retryCount])
+  }, [src, retryCount, isVisible, isClient]) // Added src to dependency array
+
+  // Don't render anything on the server
+  if (!isClient) {
+    return (
+      <div className={`relative ${className}`} ref={containerRef}>
+        <div className="w-full h-full bg-primary-800 flex items-center justify-center">
+          <div className="text-neutral-500">Loading video...</div>
+        </div>
+      </div>
+    )
+  }
 
   // Add error boundary for the component
   if (error) {
@@ -140,7 +197,7 @@ export default function SimpleVideoPlayer({
       <div className={`relative flex items-center justify-center bg-primary-800 ${className}`}>
         <div className="text-center p-4">
           <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
@@ -150,6 +207,7 @@ export default function SimpleVideoPlayer({
             <button 
               onClick={() => window.location.reload()}
               className="btn-secondary text-sm"
+              aria-label="Reload page"
             >
               Reload Page
             </button>
@@ -160,6 +218,7 @@ export default function SimpleVideoPlayer({
                   setRetryCount(prev => prev + 1)
                 }}
                 className="btn-primary text-sm"
+                aria-label="Retry loading video"
               >
                 Retry Video
               </button>
@@ -175,30 +234,38 @@ export default function SimpleVideoPlayer({
   }
 
   return (
-    <div className={`relative ${className}`}>
-      {!isLoaded && (
+    <div className={`relative ${className}`} ref={containerRef}>
+      {!isLoaded && isVisible && (
         <div className="absolute inset-0 bg-primary-800 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-12 h-12 border-2 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-12 h-12 border-2 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" aria-hidden="true"></div>
             <p className="text-neutral-300">Loading video...</p>
             <p className="text-xs text-neutral-500 mt-2">Source: {src}</p>
           </div>
         </div>
       )}
       
-      <video
-        ref={videoRef}
-        src={src}
-        poster={poster}
-        controls
-        playsInline
-        className="w-full h-full object-cover"
-      >
-        <source src={src} type="video/mp4" />
-        <p>Your browser does not support the video tag. 
-           Try updating your browser or using a different one.
-        </p>
-      </video>
+      {isVisible ? (
+        <video
+          ref={videoRef}
+          src={src}
+          poster={poster}
+          controls
+          playsInline
+          className="w-full h-full object-cover"
+          aria-label="Project video"
+        >
+          <source src={src} type="video/mp4" />
+          <p>Your browser does not support the video tag. 
+             Try updating your browser or using a different one.
+          </p>
+        </video>
+      ) : (
+        // Placeholder for lazy loading
+        <div className="w-full h-full bg-primary-800 flex items-center justify-center">
+          <div className="text-neutral-500">Loading video...</div>
+        </div>
+      )}
     </div>
   )
 }

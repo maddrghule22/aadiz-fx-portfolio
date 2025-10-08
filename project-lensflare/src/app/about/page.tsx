@@ -249,7 +249,11 @@ export default function AboutPage() {
             </p>
             
             <div className="text-center max-w-3xl mx-auto">
-              <div className="bg-gray-200 border-2 border-dashed rounded-xl w-32 h-32 mx-auto mb-6" />
+              <img 
+                src="/images/projects/Screenshot 2025-10-06 144559.png" 
+                alt="Aditya Shinde, Founder & Creative Director" 
+                className="w-32 h-32 rounded-full mx-auto mb-6 object-cover"
+              />
               <h3 className="heading-sm text-neutral-100 mb-2">Aditya Shinde</h3>
               <p className="text-accent-500 body-md mb-4">Founder & Creative Director</p>
               <p className="body-md text-neutral-300">

@@ -53,7 +53,7 @@ const defaultClients = [
   {
     id: '7',
     name: 'KTM',
-    logo: '/images/clients/ktm.svg',
+    logo: '/images/projects/KTM.png',
     website: 'https://www.ktm.com'
   },
   {

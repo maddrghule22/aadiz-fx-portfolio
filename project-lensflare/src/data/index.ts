@@ -208,9 +208,7 @@ export const tools: Tool[] = [
 
 // Social Links
 export const socialLinks: SocialLink[] = [
-  { platform: 'Vimeo', url: 'https://vimeo.com/adityashinde', icon: 'vimeo' },
-  { platform: 'Behance', url: 'https://behance.net/adityashinde', icon: 'behance' },
-  { platform: 'Instagram', url: 'https://instagram.com/adityashinde', icon: 'instagram' },
+  { platform: 'Instagram', url: 'https://www.instagram.com/aadiz.fx/', icon: 'instagram' },
   { platform: 'LinkedIn', url: 'https://linkedin.com/in/adityashinde', icon: 'linkedin' },
   { platform: 'Careers', url: '/careers', icon: 'briefcase' }
 ];
