@@ -23,11 +23,66 @@ export default function SimpleVideoPlayer({
   const [isVisible, setIsVisible] = useState(!lazy)
   const [isClient, setIsClient] = useState(false)
   const [showPoster, setShowPoster] = useState(true)
+  const [sources, setSources] = useState<Array<{src: string, type: string}>>([])
 
   // Set isClient to true on mount to avoid hydration issues
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  // Generate multiple source formats for better compatibility
+  const generateSources = (src: string) => {
+    const sources = []
+    
+    // Extract the base URL without extension
+    const baseUrl = src.substring(0, src.lastIndexOf('.')) || src
+    
+    // Add multiple formats in order of preference
+    sources.push(
+      { src: `${baseUrl}.mp4`, type: 'video/mp4' },
+      { src: `${baseUrl}.webm`, type: 'video/webm' },
+      { src: `${baseUrl}.ogg`, type: 'video/ogg' },
+      { src: `${baseUrl}.mov`, type: 'video/quicktime' }
+    )
+    
+    // If the original src is not in the list, add it as the first option
+    if (!sources.some(s => s.src === src)) {
+      sources.unshift({ src, type: getMimeType(src) })
+    }
+    
+    return sources
+  }
+
+  // Helper function to determine MIME type based on file extension
+  const getMimeType = (src: string) => {
+    if (src.endsWith('.mp4')) return 'video/mp4'
+    if (src.endsWith('.webm')) return 'video/webm'
+    if (src.endsWith('.ogg')) return 'video/ogg'
+    if (src.endsWith('.mov')) return 'video/quicktime'
+    return 'video/mp4' // default
+  }
+
+  // Check browser support for video formats
+  const checkFormatSupport = () => {
+    if (typeof window === 'undefined' || !window.MediaSource) return []
+    
+    const video = document.createElement('video')
+    const formats = [
+      { ext: 'mp4', mime: 'video/mp4' },
+      { ext: 'webm', mime: 'video/webm' },
+      { ext: 'ogg', mime: 'video/ogg' },
+      { ext: 'mov', mime: 'video/quicktime' }
+    ]
+    
+    return formats.filter(format => 
+      video.canPlayType(format.mime) !== ''
+    ).map(format => format.ext)
+  }
+
+  // Initialize sources when component mounts or src changes
+  useEffect(() => {
+    setSources(generateSources(src))
+  }, [src])
 
   // Intersection Observer for lazy loading
   useEffect(() => {
@@ -141,12 +196,14 @@ export default function SimpleVideoPlayer({
       
       console.error('Video error message:', errorMessage)
       
-      // If it's a format error and we haven't retried yet, try with a fallback approach
-      if (errorMessage.includes('format not supported') && retryCount < 2) {
-        console.log('Attempting to reload video due to format error...')
+      // If it's a format error and we haven't exhausted our retries, try with fallback formats
+      if (errorMessage.includes('format not supported') && retryCount < sources.length - 1) {
+        console.log(`Attempting to load fallback format (${retryCount + 1}/${sources.length - 1})...`)
         setRetryCount(prev => prev + 1)
         setTimeout(() => {
           if (videoRef.current) {
+            // Set the next source in the list
+            videoRef.current.src = sources[retryCount + 1]?.src || src
             videoRef.current.load()
           }
         }, 500)
@@ -195,7 +252,7 @@ export default function SimpleVideoPlayer({
         video.removeEventListener('pause', handlePause)
       }
     }
-  }, [src, retryCount, isVisible, isClient]) // Added src to dependency array
+  }, [src, retryCount, isVisible, isClient, sources]) // Added sources to dependency array
 
   // Don't render anything on the server
   if (!isClient) {
@@ -228,7 +285,7 @@ export default function SimpleVideoPlayer({
             >
               Reload Page
             </button>
-            {retryCount < 2 && (
+            {retryCount < sources.length - 1 && (
               <button 
                 onClick={() => {
                   setError(null)
@@ -237,7 +294,7 @@ export default function SimpleVideoPlayer({
                 className="btn-primary text-sm"
                 aria-label="Retry loading video"
               >
-                Retry Video
+                Try Another Format
               </button>
             )}
           </div>
@@ -280,14 +337,17 @@ export default function SimpleVideoPlayer({
           )}
           <video
             ref={videoRef}
-            src={src}
+            src={sources[retryCount]?.src || src}
             poster={poster}
             controls
             playsInline
             className="w-full h-full object-cover"
             aria-label="Project video"
           >
-            <source src={src} type="video/mp4" />
+            {/* Generate multiple sources for better compatibility */}
+            {sources.map((source, index) => (
+              <source key={index} src={source.src} type={source.type} />
+            ))}
             <p>Your browser does not support the video tag. 
                Try updating your browser or using a different one.
             </p>
