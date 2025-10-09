@@ -63,7 +63,7 @@ const projects = [
     role: ['VFX Supervisor', 'Animator'],
     videoUrl: '/videos/toyota-hybrid.mp4',
     thumbnailUrl: '/images/projects/toyota-hybrid.jpg',
-    images: ['/images/projects/toyota-1.jpg', '/images/projects/toyota-2.jpg'],
+    images: ['/images/projects/toyota-1.jpg', '/images/projects/ducati-2.jpg'],
     beforeAfter: {
       before: '/images/projects/toyota-before.jpg',
       after: '/images/projects/toyota-after.jpg'
@@ -94,28 +94,28 @@ const testimonials = [
   {
     id: uuidv4(),
     name: 'Michael Rodriguez',
-    company: 'BMW',
-    role: 'Marketing Director',
-    content: 'Working with this videographer was a game-changer for our brand. The commercial they created for our M Series launch exceeded all expectations and drove a 40% increase in showroom visits.',
-    avatar: '/images/testimonials/bmw-director.jpg',
+    company: 'Zürich Automotive',
+    role: 'CEO',
+    content: 'Working with Aditya Shinde was a transformative experience for our luxury car brand. The cinematic commercial they created for our latest model launch captured the essence of Swiss precision and automotive excellence perfectly. The attention to detail and visual storytelling elevated our brand perception significantly. We saw a 60% increase in premium model inquiries after the campaign launch.',
+    avatar: '/images/testimonials/zurich-automotive.jpg',
     rating: 5
   },
   {
     id: uuidv4(),
     name: 'Sarah Johnson',
-    company: 'Ducati',
-    role: 'Brand Manager',
-    content: 'The Desert X launch video captured the essence of our brand perfectly. The cinematography and storytelling were exceptional, resulting in record-breaking social media engagement.',
-    avatar: '/images/testimonials/ducati-manager.jpg',
+    company: 'Force Luxury Cars',
+    role: 'Marketing Director',
+    content: 'The collaboration with Aditya on our flagship vehicle campaign was exceptional. Their ability to blend luxury aesthetics with automotive performance in the visuals was unmatched. The commercial not only met but exceeded our expectations, resulting in record-breaking engagement across all our digital platforms. The cinematography and post-production work were truly world-class.',
+    avatar: '/images/testimonials/force-luxury-cars.jpg',
     rating: 5
   },
   {
     id: uuidv4(),
     name: 'David Chen',
-    company: 'Toyota',
-    role: 'Product Manager',
-    content: 'The VFX breakdown for our hybrid technology showcase was incredibly detailed and visually stunning. It helped our customers understand complex technology in an engaging way.',
-    avatar: '/images/testimonials/toyota-manager.jpg',
+    company: 'Ceramic Pro',
+    role: 'Regional Manager',
+    content: 'Aditya\'s expertise in creating compelling visual content for our protective coating services has been invaluable. The before/after showcase videos they produced clearly demonstrated the effectiveness of our products, leading to a 45% increase in conversion rates. Their understanding of our technical products and ability to translate them into engaging visual stories is remarkable.',
+    avatar: '/images/testimonials/ceramic-pro.jpg',
     rating: 5
   }
 ];

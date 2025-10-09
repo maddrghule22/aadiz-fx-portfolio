@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import ContactForm from '../models/ContactForm';
-import { sendContactEmail, sendConfirmationEmail } from '../services/email.service';
+import { sendContactEmail, sendConfirmationEmail, sendWhatsAppNotification } from '../services/email.service';
 
 // Validation rules
 export const contactValidationRules = [
@@ -41,8 +41,8 @@ export const submitContactForm = async (req: Request, res: Response) => {
 
     const savedContactForm = await contactForm.save();
 
-    // Send email notification to admin
-    await sendContactEmail({
+    // Prepare data for notifications
+    const notificationData = {
       name,
       email,
       company: company || '',
@@ -50,18 +50,21 @@ export const submitContactForm = async (req: Request, res: Response) => {
       budget,
       timeline,
       message
-    });
+    };
+
+    // Send email notification to admin
+    await sendContactEmail(notificationData);
+
+    // Send WhatsApp notification to admin
+    try {
+      await sendWhatsAppNotification(notificationData);
+    } catch (whatsappError) {
+      console.error('WhatsApp notification failed:', whatsappError);
+      // Don't fail the entire request if WhatsApp notification fails
+    }
 
     // Send confirmation email to user
-    await sendConfirmationEmail({
-      name,
-      email,
-      company: company || '',
-      projectType,
-      budget,
-      timeline,
-      message
-    });
+    await sendConfirmationEmail(notificationData);
 
     return res.status(201).json({
       success: true,

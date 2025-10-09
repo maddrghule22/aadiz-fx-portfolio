@@ -22,6 +22,7 @@ export default function SimpleVideoPlayer({
   const [retryCount, setRetryCount] = useState(0)
   const [isVisible, setIsVisible] = useState(!lazy)
   const [isClient, setIsClient] = useState(false)
+  const [showPoster, setShowPoster] = useState(true)
 
   // Set isClient to true on mount to avoid hydration issues
   useEffect(() => {
@@ -59,6 +60,7 @@ export default function SimpleVideoPlayer({
     // Reset loading state when source changes
     setIsLoaded(false);
     setError(null);
+    setShowPoster(true);
 
     const video = videoRef.current
     if (!video) return
@@ -86,6 +88,17 @@ export default function SimpleVideoPlayer({
     const handleLoadedData = () => {
       console.log('Video loaded successfully:', src)
       setIsLoaded(true)
+    }
+    
+    const handlePlay = () => {
+      setShowPoster(false)
+    }
+    
+    const handlePause = () => {
+      // Only show poster if video is at the beginning
+      if (videoRef.current && videoRef.current.currentTime === 0) {
+        setShowPoster(true)
+      }
     }
     
     const handleError = (e: any) => {
@@ -164,6 +177,8 @@ export default function SimpleVideoPlayer({
     video.addEventListener('error', handleError)
     video.addEventListener('stalled', handleStalled)
     video.addEventListener('waiting', handleWaiting)
+    video.addEventListener('play', handlePlay)
+    video.addEventListener('pause', handlePause)
 
     // Try to load the video
     video.load()
@@ -176,6 +191,8 @@ export default function SimpleVideoPlayer({
         video.removeEventListener('error', handleError)
         video.removeEventListener('stalled', handleStalled)
         video.removeEventListener('waiting', handleWaiting)
+        video.removeEventListener('play', handlePlay)
+        video.removeEventListener('pause', handlePause)
       }
     }
   }, [src, retryCount, isVisible, isClient]) // Added src to dependency array
@@ -246,20 +263,36 @@ export default function SimpleVideoPlayer({
       )}
       
       {isVisible ? (
-        <video
-          ref={videoRef}
-          src={src}
-          poster={poster}
-          controls
-          playsInline
-          className="w-full h-full object-cover"
-          aria-label="Project video"
-        >
-          <source src={src} type="video/mp4" />
-          <p>Your browser does not support the video tag. 
-             Try updating your browser or using a different one.
-          </p>
-        </video>
+        <div className="relative w-full h-full">
+          {poster && showPoster && (
+            <div 
+              className="absolute inset-0 w-full h-full bg-cover bg-center z-10"
+              style={{ backgroundImage: `url(${poster})` }}
+            >
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                <div className="w-16 h-16 bg-accent-500/80 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          )}
+          <video
+            ref={videoRef}
+            src={src}
+            poster={poster}
+            controls
+            playsInline
+            className="w-full h-full object-cover"
+            aria-label="Project video"
+          >
+            <source src={src} type="video/mp4" />
+            <p>Your browser does not support the video tag. 
+               Try updating your browser or using a different one.
+            </p>
+          </video>
+        </div>
       ) : (
         // Placeholder for lazy loading
         <div className="w-full h-full bg-primary-800 flex items-center justify-center">

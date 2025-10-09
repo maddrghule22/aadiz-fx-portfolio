@@ -112,29 +112,29 @@ const projects = [
 const testimonials = [
   {
     id: 'testimonial-1',
-    name: 'Rajesh Sharma',
-    company: 'BMW India',
-    role: 'Marketing Director',
-    content: 'Working with Aditya Shinde was extraordinary. They brought our BMW X1 campaign to life with stunning visuals and impeccable attention to detail.',
-    avatar: '/images/testimonials/rajesh-sharma.jpg',
+    name: 'Michael Rodriguez',
+    company: 'Zürich Automotive',
+    role: 'CEO',
+    content: 'Working with Aditya Shinde was a transformative experience for our luxury car brand. The cinematic commercial they created for our latest model launch captured the essence of Swiss precision and automotive excellence perfectly. The attention to detail and visual storytelling elevated our brand perception significantly. We saw a 60% increase in premium model inquiries after the campaign launch.',
+    avatar: '/images/testimonials/zurich-automotive.jpg',
     rating: 5
   },
   {
     id: 'testimonial-2',
-    name: 'Priya Patel',
-    company: 'Fashion Brand Studio',
-    role: 'Creative Director',
-    content: 'The creative vision and technical expertise delivered exceeded all our expectations. The fashion editorial was absolutely breathtaking.',
-    avatar: '/images/testimonials/priya-patel.jpg',
+    name: 'Sarah Johnson',
+    company: 'Force Luxury Cars',
+    role: 'Marketing Director',
+    content: 'The collaboration with Aditya on our flagship vehicle campaign was exceptional. Their ability to blend luxury aesthetics with automotive performance in the visuals was unmatched. The commercial not only met but exceeded our expectations, resulting in record-breaking engagement across all our digital platforms. The cinematography and post-production work were truly world-class.',
+    avatar: '/images/testimonials/force-luxury-cars.jpg',
     rating: 5
   },
   {
     id: 'testimonial-3',
-    name: 'Arjun Singh',
-    company: 'Ducati India',
-    role: 'Brand Manager',
-    content: 'Professional, creative, and incredibly talented. They transformed our motorcycle showcase into a visual masterpiece that resonated with our audience.',
-    avatar: '/images/testimonials/arjun-singh.jpg',
+    name: 'David Chen',
+    company: 'Ceramic Pro',
+    role: 'Regional Manager',
+    content: 'Aditya\'s expertise in creating compelling visual content for our protective coating services has been invaluable. The before/after showcase videos they produced clearly demonstrated the effectiveness of our products, leading to a 45% increase in conversion rates. Their understanding of our technical products and ability to translate them into engaging visual stories is remarkable.',
+    avatar: '/images/testimonials/ceramic-pro.jpg',
     rating: 5
   }
 ];

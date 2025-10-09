@@ -24,6 +24,30 @@ const createTransporter = () => {
   });
 };
 
+// Format message for WhatsApp
+const formatWhatsAppMessage = (data: ContactEmailData): string => {
+  return `
+New Contact Form Submission from ${data.name}
+
+Contact Details:
+Name: ${data.name}
+Email: ${data.email}
+Company: ${data.company || 'Not provided'}
+Project Type: ${data.projectType}
+Budget Range: ${data.budget}
+Timeline: ${data.timeline}
+
+Message:
+${data.message}
+  `.trim();
+};
+
+// Generate WhatsApp URL
+const generateWhatsAppURL = (phoneNumber: string, message: string): string => {
+  const encodedMessage = encodeURIComponent(message);
+  return `${process.env.WHATSAPP_API_URL || 'https://api.whatsapp.com/send'}?phone=${phoneNumber}&text=${encodedMessage}`;
+};
+
 // Send contact form email notification
 export const sendContactEmail = async (data: ContactEmailData) => {
   try {
@@ -64,6 +88,30 @@ export const sendContactEmail = async (data: ContactEmailData) => {
     return info;
   } catch (error) {
     console.error('Error sending contact form email:', error);
+    throw error;
+  }
+};
+
+// Send WhatsApp notification
+export const sendWhatsAppNotification = async (data: ContactEmailData) => {
+  try {
+    const phoneNumber = process.env.WHATSAPP_PHONE || '+918180999435';
+    const message = formatWhatsAppMessage(data);
+    const whatsappURL = generateWhatsAppURL(phoneNumber, message);
+    
+    console.log('WhatsApp notification ready. URL:', whatsappURL);
+    console.log('Message content:', message);
+    
+    // In a real implementation, you would integrate with a WhatsApp API service
+    // For now, we'll just log the information that would be sent
+    
+    return {
+      success: true,
+      url: whatsappURL,
+      message: 'WhatsApp notification prepared'
+    };
+  } catch (error) {
+    console.error('Error preparing WhatsApp notification:', error);
     throw error;
   }
 };

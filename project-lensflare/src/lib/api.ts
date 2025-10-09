@@ -30,7 +30,7 @@ export const fetchProjects = async () => {
         category: "Automotive",
         description: "High-end automotive commercial showcasing the BMW X1 with cinematic visuals and dynamic camera movements.",
         videoUrl: "/videos/bmw-x1.mp4",
-        thumbnailUrl: "/images/projects/bmw-x1-thumbnail.jpg",
+        thumbnailUrl: "/images/projects/BMW.jpeg",
         year: 2024
       },
       {
@@ -39,7 +39,7 @@ export const fetchProjects = async () => {
         category: "Motorcycle",
         description: "Powerful motorcycle showcase featuring the Ducati Xdiavel with dramatic lighting and precision shots.",
         videoUrl: "/videos/ducati-xdiavel.mp4",
-        thumbnailUrl: "/images/projects/ducati-thumbnail.jpg",
+        thumbnailUrl: "/images/projects/Ducati.jpeg",
         year: 2024
       },
       {
@@ -48,7 +48,7 @@ export const fetchProjects = async () => {
         category: "Fashion",
         description: "Stylish fashion video featuring contemporary fashion with artistic cinematography and advanced color grading.",
         videoUrl: "/videos/fashion-edit.mp4",
-        thumbnailUrl: "/images/projects/fashion-thumbnail.jpg",
+        thumbnailUrl: "/images/projects/Fashion studio.jpeg",
         year: 2024
       },
       {
@@ -57,7 +57,7 @@ export const fetchProjects = async () => {
         category: "Automotive",
         description: "Rugged SUV commercial highlighting the Toyota Fortuner's capabilities with adventure-focused storytelling.",
         videoUrl: "/videos/fortuner.mp4",
-        thumbnailUrl: "/images/projects/fortuner-thumbnail.jpg",
+        thumbnailUrl: "/images/projects/toyato.jpeg",
         year: 2023
       },
       {
@@ -99,7 +99,7 @@ export const fetchFeaturedProjects = async () => {
         category: "Automotive",
         description: "High-end automotive commercial showcasing the BMW X1 with cinematic visuals and dynamic camera movements.",
         videoUrl: "/videos/bmw-x1.mp4",
-        thumbnailUrl: "/images/projects/bmw-x1-thumbnail.jpg",
+        thumbnailUrl: "/images/projects/BMW.jpeg",
         year: 2024
       },
       {
@@ -108,7 +108,7 @@ export const fetchFeaturedProjects = async () => {
         category: "Motorcycle",
         description: "Powerful motorcycle showcase featuring the Ducati Xdiavel with dramatic lighting and precision shots.",
         videoUrl: "/videos/ducati-xdiavel.mp4",
-        thumbnailUrl: "/images/projects/ducati-thumbnail.jpg",
+        thumbnailUrl: "/images/projects/Ducati.jpeg",
         year: 2024
       },
       {
@@ -137,30 +137,30 @@ export const fetchTestimonials = async () => {
     [
       {
         id: 'testimonial-1',
-        name: 'Rajesh Sharma',
-        company: 'BMW India',
-        role: 'Marketing Director',
-        content: 'Working with Aadiz.FX was extraordinary. They brought our BMW X1 campaign to life with stunning visuals and impeccable attention to detail. The commercial exceeded all expectations and resulted in a 45% increase in showroom visits. Their professionalism and creative vision made the entire process seamless.',
+        name: 'Michael Rodriguez',
+        company: 'Zürich Automotive',
+        role: 'CEO',
+        content: 'Working with Aditya Shinde was a transformative experience for our luxury car brand. The cinematic commercial they created for our latest model launch captured the essence of Swiss precision and automotive excellence perfectly. The attention to detail and visual storytelling elevated our brand perception significantly. We saw a 60% increase in premium model inquiries after the campaign launch.',
         rating: 5,
-        avatar: '/images/testimonials/rajesh-sharma.svg'
+        avatar: '/images/testimonials/zurich-automotive.jpg'
       },
       {
         id: 'testimonial-2',
-        name: 'Priya Patel',
-        company: 'Fashion Brand Studio',
-        role: 'Creative Director',
-        content: 'The creative vision and technical expertise delivered exceeded all our expectations. The fashion editorial was absolutely breathtaking and received over 2 million views across our social platforms. Aadiz.FX understood our brand aesthetic perfectly and translated it into compelling visual content.',
+        name: 'Sarah Johnson',
+        company: 'Force Luxury Cars',
+        role: 'Marketing Director',
+        content: 'The collaboration with Aditya on our flagship vehicle campaign was exceptional. Their ability to blend luxury aesthetics with automotive performance in the visuals was unmatched. The commercial not only met but exceeded our expectations, resulting in record-breaking engagement across all our digital platforms. The cinematography and post-production work were truly world-class.',
         rating: 5,
-        avatar: '/images/testimonials/priya-patel.svg'
+        avatar: '/images/testimonials/force-luxury-cars.jpg'
       },
       {
         id: 'testimonial-3',
-        name: 'Arjun Singh',
-        company: 'Ducati India',
-        role: 'Brand Manager',
-        content: 'Professional, creative, and incredibly talented. They transformed our motorcycle showcase into a visual masterpiece that resonated with our audience. The commercial went viral and significantly boosted our brand engagement. We\'ve already booked them for our next campaign.',
+        name: 'David Chen',
+        company: 'Ceramic Pro',
+        role: 'Regional Manager',
+        content: 'Aditya\'s expertise in creating compelling visual content for our protective coating services has been invaluable. The before/after showcase videos they produced clearly demonstrated the effectiveness of our products, leading to a 45% increase in conversion rates. Their understanding of our technical products and ability to translate them into engaging visual stories is remarkable.',
         rating: 5,
-        avatar: '/images/testimonials/arjun-singh.svg'
+        avatar: '/images/testimonials/ceramic-pro.jpg'
       }
     ] // Fallback data
   );
@@ -177,15 +177,15 @@ export const fetchClients = async () => {
       return data.data;
     },
     [
-      { id: 'bmw', name: 'BMW', logo: '/images/clients/bmw.svg', website: 'https://bmw.in' },
-      { id: 'ducati', name: 'Ducati', logo: '/images/clients/ducati.svg', website: 'https://ducati.com' },
-      { id: 'toyota', name: 'Toyota', logo: '/images/clients/toyota.svg', website: 'https://toyota.co.in' },
+      { id: 'bmw', name: 'BMW', logo: '/images/projects/BMW.jpeg', website: 'https://bmw.in' },
+      { id: 'ducati', name: 'Ducati', logo: '/images/projects/Ducati.jpeg', website: 'https://ducati.com' },
+      { id: 'toyota', name: 'Toyota', logo: '/images/projects/toyato.jpeg', website: 'https://toyota.co.in' },
       { id: 'ktm', name: 'KTM', logo: '/images/projects/KTM.png', website: 'https://ktm.com' },
-      { id: 'yamaha', name: 'Yamaha', logo: '/images/clients/yamaha.svg', website: 'https://yamaha-motor.co.in' },
-      { id: 'audi', name: 'Audi', logo: '/images/clients/audi.svg', website: 'https://audi.com' },
-      { id: 'mercedes', name: 'Mercedes-Benz', logo: '/images/clients/mercedes.svg', website: 'https://mercedes-benz.com' },
-      { id: 'lamborghini', name: 'Lamborghini', logo: '/images/clients/lamborghini.svg', website: 'https://lamborghini.com' },
-      { id: 'fashion-brand', name: 'Fashion Studio', logo: '/images/clients/fashion.svg', website: '#' }
+      { id: 'yamaha', name: 'Yamaha', logo: '/images/projects/yamaha.jpeg', website: 'https://yamaha-motor.co.in' },
+      { id: 'audi', name: 'Audi', logo: '/images/projects/Audi.jpeg', website: 'https://audi.com' },
+      { id: 'mercedes', name: 'Mercedes-Benz', logo: '/images/projects/Mercedes-Benz.jpeg', website: 'https://mercedes-benz.com' },
+      { id: 'lamborghini', name: 'Lamborghini', logo: '/images/projects/Lamborghini.png', website: 'https://lamborghini.com' },
+      { id: 'fashion-brand', name: 'Fashion Studio', logo: '/images/projects/Fashion studio.jpeg', website: '#' }
     ] // Fallback data
   );
 };
