@@ -393,21 +393,18 @@ export default function ContactPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="budget" className="block text-neutral-200 font-medium mb-2">
-                    Estimated Budget
+                    Estimated Budget (₹)
                   </label>
-                  <select
+                  <input
+                    type="number"
                     id="budget"
                     name="budget"
                     value={formData.budget}
                     onChange={handleChange}
+                    min="0"
+                    placeholder="Enter your budget"
                     className="w-full px-4 py-3 bg-primary-800/50 border border-primary-700/50 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-300"
-                  >
-                    <option value="">Select budget range</option>
-                    <option value="Under ₹1 Lakh">Under ₹1 Lakh</option>
-                    <option value="₹1-5 Lakhs">₹1-5 Lakhs</option>
-                    <option value="₹5-10 Lakhs">₹5-10 Lakhs</option>
-                    <option value="₹10+ Lakhs">₹10+ Lakhs</option>
-                  </select>
+                  />
                 </div>
                 <div>
                   <label htmlFor="timeline" className="block text-neutral-200 font-medium mb-2">

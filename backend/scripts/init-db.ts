@@ -124,38 +124,38 @@ const clients = [
   {
     id: uuidv4(),
     name: 'BMW',
-    logo: '/images/clients/bmw.svg',
-    website: 'https://www.bmw.com'
+    logo: '/images/projects/BMW.jpeg',
+    website: 'https://bmw.in'
   },
   {
     id: uuidv4(),
     name: 'Ducati',
-    logo: '/images/clients/ducati.svg',
-    website: 'https://www.ducati.com'
+    logo: '/images/projects/Ducati.jpeg',
+    website: 'https://ducati.com'
   },
   {
     id: uuidv4(),
     name: 'Toyota',
-    logo: '/images/clients/toyota.svg',
-    website: 'https://www.toyota.com'
+    logo: '/images/projects/toyato.jpeg',
+    website: 'https://toyota.co.in'
   },
   {
     id: uuidv4(),
     name: 'Audi',
-    logo: '/images/clients/audi.svg',
-    website: 'https://www.audi.com'
+    logo: '/images/projects/Audi.jpeg',
+    website: 'https://audi.com'
   },
   {
     id: uuidv4(),
     name: 'Mercedes-Benz',
-    logo: '/images/clients/mercedes.svg',
-    website: 'https://www.mercedes-benz.com'
+    logo: '/images/projects/Mercedes-Benz.jpeg',
+    website: 'https://mercedes-benz.com'
   },
   {
     id: uuidv4(),
     name: 'Lamborghini',
-    logo: '/images/clients/lamborghini.svg',
-    website: 'https://www.lamborghini.com'
+    logo: '/images/projects/Lamborghini.png',
+    website: 'https://lamborghini.com'
   }
 ];
 

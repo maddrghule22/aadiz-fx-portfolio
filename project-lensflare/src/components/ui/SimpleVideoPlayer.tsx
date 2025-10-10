@@ -13,136 +13,37 @@ export default function SimpleVideoPlayer({
   src,
   poster,
   className = '',
-  lazy = true
+  lazy = false // Changed default to false for autoplay
 }: SimpleVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [retryCount, setRetryCount] = useState(0)
-  const [isVisible, setIsVisible] = useState(!lazy)
   const [isClient, setIsClient] = useState(false)
   const [showPoster, setShowPoster] = useState(true)
-  const [sources, setSources] = useState<Array<{src: string, type: string}>>([])
 
   // Set isClient to true on mount to avoid hydration issues
   useEffect(() => {
     setIsClient(true)
   }, [])
 
-  // Generate multiple source formats for better compatibility
-  const generateSources = (src: string) => {
-    const sources = []
-    
-    // Extract the base URL without extension
-    const baseUrl = src.substring(0, src.lastIndexOf('.')) || src
-    
-    // Add multiple formats in order of preference
-    sources.push(
-      { src: `${baseUrl}.mp4`, type: 'video/mp4' },
-      { src: `${baseUrl}.webm`, type: 'video/webm' },
-      { src: `${baseUrl}.ogg`, type: 'video/ogg' },
-      { src: `${baseUrl}.mov`, type: 'video/quicktime' }
-    )
-    
-    // If the original src is not in the list, add it as the first option
-    if (!sources.some(s => s.src === src)) {
-      sources.unshift({ src, type: getMimeType(src) })
-    }
-    
-    return sources
-  }
-
-  // Helper function to determine MIME type based on file extension
-  const getMimeType = (src: string) => {
-    if (src.endsWith('.mp4')) return 'video/mp4'
-    if (src.endsWith('.webm')) return 'video/webm'
-    if (src.endsWith('.ogg')) return 'video/ogg'
-    if (src.endsWith('.mov')) return 'video/quicktime'
-    return 'video/mp4' // default
-  }
-
-  // Check browser support for video formats
-  const checkFormatSupport = () => {
-    if (typeof window === 'undefined' || !window.MediaSource) return []
-    
-    const video = document.createElement('video')
-    const formats = [
-      { ext: 'mp4', mime: 'video/mp4' },
-      { ext: 'webm', mime: 'video/webm' },
-      { ext: 'ogg', mime: 'video/ogg' },
-      { ext: 'mov', mime: 'video/quicktime' }
-    ]
-    
-    return formats.filter(format => 
-      video.canPlayType(format.mime) !== ''
-    ).map(format => format.ext)
-  }
-
-  // Initialize sources when component mounts or src changes
+  // Handle video events
   useEffect(() => {
-    setSources(generateSources(src))
-  }, [src])
-
-  // Intersection Observer for lazy loading
-  useEffect(() => {
-    if (!lazy || !isClient) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true)
-            observer.disconnect()
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current)
-    }
-
-    return () => {
-      observer.disconnect()
-    }
-  }, [lazy, isClient])
-
-  useEffect(() => {
-    if (!isClient || !isVisible) return
-
-    // Reset loading state when source changes
-    setIsLoaded(false);
-    setError(null);
-    setShowPoster(true);
+    if (!isClient) return
 
     const video = videoRef.current
     if (!video) return
 
-    // Update the video source directly when it changes
-    if (video.src !== window.location.origin + src) {
-      video.src = src
-    }
-
-    // Instead of failing on HEAD request, let's just log and proceed
-    fetch(src, { method: 'HEAD' })
-      .then(response => {
-        if (!response.ok) {
-          console.warn(`Video file HEAD request failed: ${src}`, response.status)
-          // We'll still try to load the video even if HEAD fails
-        } else {
-          console.log('Video file exists:', src)
-        }
-      })
-      .catch(error => {
-        console.warn('Video file check failed (this is okay, will still try to load):', error)
-        // We'll still try to load the video even if HEAD fails
-      })
-
     const handleLoadedData = () => {
       console.log('Video loaded successfully:', src)
       setIsLoaded(true)
+      
+      // Automatically play the video when loaded
+      if (videoRef.current) {
+        videoRef.current.play().catch(error => {
+          console.warn('Autoplay failed:', error)
+        })
+      }
     }
     
     const handlePlay = () => {
@@ -195,21 +96,7 @@ export default function SimpleVideoPlayer({
       }
       
       console.error('Video error message:', errorMessage)
-      
-      // If it's a format error and we haven't exhausted our retries, try with fallback formats
-      if (errorMessage.includes('format not supported') && retryCount < sources.length - 1) {
-        console.log(`Attempting to load fallback format (${retryCount + 1}/${sources.length - 1})...`)
-        setRetryCount(prev => prev + 1)
-        setTimeout(() => {
-          if (videoRef.current) {
-            // Set the next source in the list
-            videoRef.current.src = sources[retryCount + 1]?.src || src
-            videoRef.current.load()
-          }
-        }, 500)
-      } else {
-        setError(errorMessage)
-      }
+      setError(errorMessage)
     }
 
     const handleLoadStart = () => {
@@ -228,6 +115,7 @@ export default function SimpleVideoPlayer({
       console.log('Video waiting for data:', src)
     }
 
+    // Add event listeners
     video.addEventListener('loadstart', handleLoadStart)
     video.addEventListener('canplay', handleCanPlay)
     video.addEventListener('loadeddata', handleLoadedData)
@@ -237,8 +125,17 @@ export default function SimpleVideoPlayer({
     video.addEventListener('play', handlePlay)
     video.addEventListener('pause', handlePause)
 
+    // Set the video source
+    video.src = src
+
     // Try to load the video
     video.load()
+
+    // Attempt autoplay
+    if (videoRef.current) {
+      videoRef.current.muted = true // Mute is often required for autoplay
+      videoRef.current.autoplay = true
+    }
 
     return () => {
       if (video) {
@@ -252,7 +149,7 @@ export default function SimpleVideoPlayer({
         video.removeEventListener('pause', handlePause)
       }
     }
-  }, [src, retryCount, isVisible, isClient, sources]) // Added sources to dependency array
+  }, [src, isClient])
 
   // Don't render anything on the server
   if (!isClient) {
@@ -285,18 +182,6 @@ export default function SimpleVideoPlayer({
             >
               Reload Page
             </button>
-            {retryCount < sources.length - 1 && (
-              <button 
-                onClick={() => {
-                  setError(null)
-                  setRetryCount(prev => prev + 1)
-                }}
-                className="btn-primary text-sm"
-                aria-label="Retry loading video"
-              >
-                Try Another Format
-              </button>
-            )}
           </div>
           <div className="mt-4 text-xs text-neutral-500">
             <p>Video Source: {src}</p>
@@ -309,7 +194,7 @@ export default function SimpleVideoPlayer({
 
   return (
     <div className={`relative ${className}`} ref={containerRef}>
-      {!isLoaded && isVisible && (
+      {!isLoaded && (
         <div className="absolute inset-0 bg-primary-800 flex items-center justify-center">
           <div className="text-center">
             <div className="w-12 h-12 border-2 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" aria-hidden="true"></div>
@@ -319,46 +204,36 @@ export default function SimpleVideoPlayer({
         </div>
       )}
       
-      {isVisible ? (
-        <div className="relative w-full h-full">
-          {poster && showPoster && (
-            <div 
-              className="absolute inset-0 w-full h-full bg-cover bg-center z-10"
-              style={{ backgroundImage: `url(${poster})` }}
-            >
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <div className="w-16 h-16 bg-accent-500/80 rounded-full flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                  </svg>
-                </div>
+      <div className="relative w-full h-full">
+        {poster && showPoster && (
+          <div 
+            className="absolute inset-0 w-full h-full bg-cover bg-center z-10"
+            style={{ backgroundImage: `url(${poster})` }}
+          >
+            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+              <div className="w-16 h-16 bg-accent-500/80 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                </svg>
               </div>
             </div>
-          )}
-          <video
-            ref={videoRef}
-            src={sources[retryCount]?.src || src}
-            poster={poster}
-            controls
-            playsInline
-            className="w-full h-full object-cover"
-            aria-label="Project video"
-          >
-            {/* Generate multiple sources for better compatibility */}
-            {sources.map((source, index) => (
-              <source key={index} src={source.src} type={source.type} />
-            ))}
-            <p>Your browser does not support the video tag. 
-               Try updating your browser or using a different one.
-            </p>
-          </video>
-        </div>
-      ) : (
-        // Placeholder for lazy loading
-        <div className="w-full h-full bg-primary-800 flex items-center justify-center">
-          <div className="text-neutral-500">Loading video...</div>
-        </div>
-      )}
+          </div>
+        )}
+        <video
+          ref={videoRef}
+          muted // Muted is often required for autoplay
+          autoPlay
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          aria-label="Project video"
+        >
+          <source src={src} type="video/mp4" />
+          <p>Your browser does not support the video tag. 
+             Try updating your browser or using a different one.
+          </p>
+        </video>
+      </div>
     </div>
   )
 }

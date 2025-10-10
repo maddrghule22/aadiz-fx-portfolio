@@ -140,15 +140,15 @@ const testimonials = [
 ];
 
 const clients = [
-  { id: 'bmw', name: 'BMW', logo: '/images/clients/bmw.svg', website: 'https://bmw.in' },
-  { id: 'ducati', name: 'Ducati', logo: '/images/clients/ducati.svg', website: 'https://ducati.com' },
-  { id: 'toyota', name: 'Toyota', logo: '/images/clients/toyota.svg', website: 'https://toyota.co.in' },
-  { id: 'ktm', name: 'KTM', logo: '/images/clients/ktm.svg', website: 'https://ktm.com' },
-  { id: 'yamaha', name: 'Yamaha', logo: '/images/clients/yamaha.svg', website: 'https://yamaha-motor.co.in' },
-  { id: 'audi', name: 'Audi', logo: '/images/clients/audi.svg', website: 'https://audi.com' },
-  { id: 'mercedes', name: 'Mercedes-Benz', logo: '/images/clients/mercedes.svg', website: 'https://mercedes-benz.com' },
-  { id: 'lamborghini', name: 'Lamborghini', logo: '/images/clients/lamborghini.svg', website: 'https://lamborghini.com' },
-  { id: 'fashion-brand', name: 'Fashion Studio', logo: '/images/clients/fashion.svg', website: '#' }
+  { id: 'bmw', name: 'BMW', logo: '/images/projects/BMW.jpeg', website: 'https://bmw.in' },
+  { id: 'ducati', name: 'Ducati', logo: '/images/projects/Ducati.jpeg', website: 'https://ducati.com' },
+  { id: 'toyota', name: 'Toyota', logo: '/images/projects/toyato.jpeg', website: 'https://toyota.co.in' },
+  { id: 'ktm', name: 'KTM', logo: '/images/projects/KTM.png', website: 'https://ktm.com' },
+  { id: 'yamaha', name: 'Yamaha', logo: '/images/projects/yamaha.jpeg', website: 'https://yamaha-motor.co.in' },
+  { id: 'audi', name: 'Audi', logo: '/images/projects/Audi.jpeg', website: 'https://audi.com' },
+  { id: 'mercedes', name: 'Mercedes-Benz', logo: '/images/projects/Mercedes-Benz.jpeg', website: 'https://mercedes-benz.com' },
+  { id: 'lamborghini', name: 'Lamborghini', logo: '/images/projects/Lamborghini.png', website: 'https://lamborghini.com' },
+  { id: 'fashion-brand', name: 'Fashion Studio', logo: '/images/projects/Fashion studio.jpeg', website: '#' }
 ];
 
 const services = [

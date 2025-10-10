@@ -6,15 +6,13 @@ import HeroSection from '@/components/HeroSection'
 import SimpleVideoPlayer from '@/components/ui/SimpleVideoPlayer'
 import ServicesSnippet from '@/components/ServicesSnippet'
 import TestimonialsSection from '@/components/TestimonialsSection'
-import ClientsSection from '@/components/ClientsSection'
 import ContactCTA from '@/components/ContactCTA'
-import { fetchFeaturedProjects, fetchServices, fetchTestimonials, fetchClients } from '@/lib/api'
+import { fetchFeaturedProjects, fetchServices, fetchTestimonials } from '@/lib/api'
 
 export default function HomePage() {
   const [featuredProjects, setFeaturedProjects] = useState([])
   const [services, setServices] = useState([])
   const [testimonials, setTestimonials] = useState([])
-  const [clients, setClients] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 
@@ -22,18 +20,16 @@ export default function HomePage() {
     const fetchData = async () => {
       try {
         console.log('Fetching data...')
-        const [projectsData, servicesData, testimonialsData, clientsData] = await Promise.all([
+        const [projectsData, servicesData, testimonialsData] = await Promise.all([
           fetchFeaturedProjects(),
           fetchServices(),
-          fetchTestimonials(),
-          fetchClients()
+          fetchTestimonials()
         ])
         
         console.log('Data fetched successfully')
         setFeaturedProjects(projectsData)
         setServices(servicesData)
         setTestimonials(testimonialsData)
-        setClients(clientsData)
         setLoading(false)
       } catch (error: unknown) {
         console.error('Error fetching data:', error)
@@ -119,7 +115,6 @@ export default function HomePage() {
       </section>
       <ServicesSnippet services={services} />
       <TestimonialsSection testimonials={testimonials} />
-      <ClientsSection clients={clients} />
       <ContactCTA />
     </>
   )

@@ -135,7 +135,7 @@ export default function TestimonialsSection({ testimonials = [] }: TestimonialsS
                   <div className="relative w-12 h-12 rounded-full overflow-hidden">
                     <Image
                       src={currentTestimonial.avatar}
-                      alt={currentTestimonial.name}
+                      alt={currentTestimonial.company}
                       fill
                       className="object-cover"
                     />
@@ -143,10 +143,7 @@ export default function TestimonialsSection({ testimonials = [] }: TestimonialsS
                 )}
                 <div className="text-left">
                   <div className="heading-xs text-neutral-100">
-                    {currentTestimonial.name}
-                  </div>
-                  <div className="body-sm text-accent-500">
-                    {currentTestimonial.role} at {currentTestimonial.company}
+                    {currentTestimonial.company}
                   </div>
                 </div>
               </div>

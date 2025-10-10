@@ -38,7 +38,7 @@ export default function HeroSection() {
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
         <VideoPlayer
-          src="/videos/bmw-x1.mp4"
+          src="/videos/bmw-m-series.mp4" // Changed from bmw-x1.mp4 to bmw-m-series.mp4
           poster="/images/projects/bmw-x1-thumbnail.jpg"
           autoPlay
           muted

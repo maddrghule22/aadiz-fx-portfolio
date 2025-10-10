@@ -4,6 +4,7 @@ import './globals.css'
 import { siteMetadata } from '@/data'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import ErrorLogger from '@/components/ErrorLogger'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -68,6 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
       <body className="antialiased">
+        <ErrorLogger />
         <Navigation />
         <main className="min-h-screen">
           {children}

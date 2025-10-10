@@ -15,57 +15,57 @@ interface ClientsSectionProps {
 
 const defaultClients = [
   {
-    id: '1',
+    id: 'bmw',
     name: 'BMW',
-    logo: '/images/clients/bmw.svg',
-    website: 'https://www.bmw.com'
+    logo: '/images/projects/BMW.jpeg',
+    website: 'https://bmw.in'
   },
   {
-    id: '2',
+    id: 'ducati',
     name: 'Ducati',
-    logo: '/images/clients/ducati.svg',
-    website: 'https://www.ducati.com'
+    logo: '/images/projects/Ducati.jpeg',
+    website: 'https://ducati.com'
   },
   {
-    id: '3',
+    id: 'toyota',
     name: 'Toyota',
-    logo: '/images/clients/toyota.svg',
-    website: 'https://www.toyota.com'
+    logo: '/images/projects/toyato.jpeg',
+    website: 'https://toyota.co.in'
   },
   {
-    id: '4',
+    id: 'audi',
     name: 'Audi',
-    logo: '/images/clients/audi.svg',
-    website: 'https://www.audi.com'
+    logo: '/images/projects/Audi.jpeg',
+    website: 'https://audi.com'
   },
   {
-    id: '5',
+    id: 'mercedes',
     name: 'Mercedes-Benz',
-    logo: '/images/clients/mercedes.svg',
-    website: 'https://www.mercedes-benz.com'
+    logo: '/images/projects/Mercedes-Benz.jpeg',
+    website: 'https://mercedes-benz.com'
   },
   {
-    id: '6',
+    id: 'lamborghini',
     name: 'Lamborghini',
-    logo: '/images/clients/lamborghini.svg',
-    website: 'https://www.lamborghini.com'
+    logo: '/images/projects/Lamborghini.png',
+    website: 'https://lamborghini.com'
   },
   {
-    id: '7',
+    id: 'ktm',
     name: 'KTM',
     logo: '/images/projects/KTM.png',
-    website: 'https://www.ktm.com'
+    website: 'https://ktm.com'
   },
   {
-    id: '8',
+    id: 'yamaha',
     name: 'Yamaha',
-    logo: '/images/clients/yamaha.svg',
-    website: 'https://www.yamaha-motor.com'
+    logo: '/images/projects/yamaha.jpeg',
+    website: 'https://yamaha-motor.co.in'
   },
   {
-    id: '9',
+    id: 'fashion-brand',
     name: 'Fashion Studio',
-    logo: '/images/clients/fashion.svg',
+    logo: '/images/projects/Fashion studio.jpeg',
     website: '#'
   }
 ]

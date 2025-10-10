@@ -1,65 +1,47 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { projects } from '@/data'
 import SimpleVideoPlayer from '@/components/ui/SimpleVideoPlayer'
 
 export default function VideoTestFinalPage() {
-  const [videoErrors, setVideoErrors] = useState<{[key: string]: string}>({})
-  
-  // Get featured projects
-  const featuredProjects = projects.filter(project => project.featured)
-
-  // Function to handle video errors
-  const handleVideoError = (projectId: string, error: string) => {
-    setVideoErrors(prev => ({
-      ...prev,
-      [projectId]: error
-    }))
-  }
+  const testVideos = [
+    {
+      title: "BMW M Series",
+      src: "/videos/bmw-m-series.mp4",
+      poster: "/images/projects/bmw-x1-thumbnail.jpg"
+    },
+    {
+      title: "Ducati Desert X",
+      src: "/videos/ducati-desert-x.mp4",
+      poster: "/images/projects/ducati-desert-x.jpg"
+    },
+    {
+      title: "Toyota Hybrid",
+      src: "/videos/toyota-hybrid.mp4",
+      poster: "/images/projects/toyota-hybrid.jpg"
+    },
+    {
+      title: "Audi e-tron",
+      src: "/videos/audi-etron.mp4",
+      poster: "/images/projects/audi-etron.jpg"
+    }
+  ]
 
   return (
-    <div className="min-h-screen bg-primary-900 py-16 px-4">
+    <div className="min-h-screen bg-hero-gradient py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="heading-xl text-neutral-100 mb-8 text-center">Final Video Test Page</h1>
-        <p className="text-neutral-300 text-center mb-8">Testing video playback for featured projects</p>
+        <h1 className="heading-xl text-neutral-100 mb-6">Final Video Test</h1>
+        <p className="text-neutral-300 mb-8">Testing all featured project videos</p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {featuredProjects.map((project) => (
-            <div key={project.id} className="bg-primary-800 rounded-xl overflow-hidden">
-              <h2 className="heading-sm text-neutral-100 p-4">{project.title}</h2>
-              <div className="aspect-video relative">
+          {testVideos.map((video, index) => (
+            <div key={index} className="bg-primary-800 rounded-xl overflow-hidden">
+              <h2 className="heading-sm text-neutral-100 p-4">{video.title}</h2>
+              <div className="aspect-video">
                 <SimpleVideoPlayer
-                  src={project.videoUrl}
-                  poster={project.thumbnailUrl}
+                  src={video.src}
+                  poster={video.poster}
                   className="w-full h-full"
                 />
-                {videoErrors[project.id] && (
-                  <div className="absolute inset-0 bg-red-900/80 flex items-center justify-center">
-                    <div className="text-center p-4">
-                      <p className="text-neutral-100 font-medium">Video Error</p>
-                      <p className="text-sm text-neutral-200 mt-2">{videoErrors[project.id]}</p>
-                      <button 
-                        onClick={() => window.location.reload()}
-                        className="mt-4 btn-secondary text-sm"
-                      >
-                        Reload
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="p-4">
-                <p className="body-sm text-neutral-300 mb-2">Video URL: {project.videoUrl}</p>
-                <p className="body-sm text-neutral-300 mb-2">Thumbnail URL: {project.thumbnailUrl}</p>
-                <p className="body-sm text-neutral-300">{project.description}</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {project.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} className="bg-primary-700/50 text-neutral-300 px-2 py-1 rounded text-xs">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
             </div>
           ))}

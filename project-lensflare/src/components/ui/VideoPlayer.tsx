@@ -32,39 +32,9 @@ export default function VideoPlayer({
   const [error, setError] = useState<string | null>(null)
   const [userInteracted, setUserInteracted] = useState(false) // Track user interaction
 
-  // Log when component mounts
   useEffect(() => {
-    console.log('VideoPlayer component mounted')
-    return () => {
-      console.log('VideoPlayer component unmounted')
-    }
-  }, [])
-
-  useEffect(() => {
-    // Check if video file exists
-    if (typeof src === 'string') {
-      console.log('Checking video file:', src)
-      fetch(src, { method: 'HEAD' })
-        .then(response => {
-          console.log('Video file check response:', response.status, response.statusText)
-          if (!response.ok) {
-            throw new Error(`Video file not found: ${src} (Status: ${response.status})`)
-          }
-          console.log('Video file exists')
-        })
-        .catch(error => {
-          console.error('Video file check failed:', error)
-          setError(`Video file not accessible: ${error.message}`)
-        })
-    }
-
     const video = videoRef.current
-    if (!video) {
-      console.log('Video element not available yet')
-      return
-    }
-
-    console.log('Setting up video element')
+    if (!video) return
 
     const handleLoadedData = () => {
       console.log('Video loaded successfully')
@@ -89,16 +59,16 @@ export default function VideoPlayer({
       if (error) {
         console.error('Video error details:', error)
         switch (error.code) {
-          case error.MEDIA_ERR_ABORTED:
+          case 1: // MEDIA_ERR_ABORTED
             errorMessage = 'Video download aborted by user.'
             break
-          case error.MEDIA_ERR_NETWORK:
+          case 2: // MEDIA_ERR_NETWORK
             errorMessage = 'Network error while loading video.'
             break
-          case error.MEDIA_ERR_DECODE:
+          case 3: // MEDIA_ERR_DECODE
             errorMessage = 'Video decode error. The video may be corrupted.'
             break
-          case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          case 4: // MEDIA_ERR_SRC_NOT_SUPPORTED
             errorMessage = 'Video format not supported by your browser.'
             break
           default:
@@ -124,32 +94,27 @@ export default function VideoPlayer({
     video.addEventListener('pause', handlePause)
     video.addEventListener('error', handleError)
 
-    // Log video properties
-    console.log('Video element properties:', {
-      src: video.src,
-      readyState: video.readyState,
-      networkState: video.networkState,
-      error: video.error
-    })
-
     // If autoplay is enabled, start playing
     if (autoPlay) {
       console.log('Attempting to autoplay video')
-      video.play().then(() => {
-        console.log('Video autoplay successful')
-      }).catch(error => {
-        console.warn('Autoplay failed:', error)
-        let errorMessage = 'Autoplay blocked by browser. Click play to start video.'
-        
-        // Check if it's a specific autoplay policy error
-        if (error.name === 'NotAllowedError') {
-          errorMessage = 'Autoplay prevented by browser policy. Click play to start video.'
-        } else if (error.name === 'NotSupportedError') {
-          errorMessage = 'Video format not supported. Please try a different browser.'
-        }
-        
-        setError(errorMessage)
-      })
+      // Add a small delay to ensure the video element is ready
+      setTimeout(() => {
+        video.play().then(() => {
+          console.log('Video autoplay successful')
+        }).catch(error => {
+          console.warn('Autoplay failed:', error)
+          let errorMessage = 'Autoplay blocked by browser. Click play to start video.'
+          
+          // Check if it's a specific autoplay policy error
+          if (error.name === 'NotAllowedError') {
+            errorMessage = 'Autoplay prevented by browser policy. Click play to start video.'
+          } else if (error.name === 'NotSupportedError') {
+            errorMessage = 'Video format not supported. Please try a different browser.'
+          }
+          
+          setError(errorMessage)
+        })
+      }, 100)
     }
 
     return () => {
@@ -164,44 +129,6 @@ export default function VideoPlayer({
       }
     }
   }, [autoPlay, src])
-
-  // Scroll-based play/pause functionality
-  useEffect(() => {
-    if (!playOnScroll || userInteracted) return // Don't interfere if user has interacted
-
-    const video = videoRef.current
-    if (!video) return
-
-    const handleScroll = () => {
-      if (!video || userInteracted) return // Don't interfere if user has interacted
-
-      const rect = video.getBoundingClientRect()
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight
-      const isVisible = rect.top <= windowHeight && rect.bottom >= 0
-
-      if (isVisible) {
-        // Video is in view, play it
-        video.play().catch(error => {
-          console.warn('Play failed:', error)
-          if (!error.message.includes('play() failed')) {
-            setError('Failed to play video. Please check the console for details.')
-          }
-        })
-      } else {
-        // Video is out of view, pause it
-        video.pause()
-      }
-    }
-
-    // Add scroll listener
-    window.addEventListener('scroll', handleScroll)
-    // Also check on load
-    handleScroll()
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [playOnScroll, userInteracted])
 
   const togglePlay = () => {
     const video = videoRef.current
