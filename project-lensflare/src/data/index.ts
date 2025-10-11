@@ -9,7 +9,7 @@ export const projects: Project[] = [
     category: 'commercial',
     client: 'BMW',
     role: ['Director', 'Editor', 'Cinematographer'],
-    videoUrl: '/videos/bmw-x1.mp4',
+    videoUrl: '/videos/bmw-m-series.mp4',
     thumbnailUrl: '/images/projects/BMW.jpeg',
     beforeAfter: {
       before: '/images/before-after/bmw-before.jpg',
@@ -78,7 +78,7 @@ export const projects: Project[] = [
     category: 'commercial',
     client: 'Toyota',
     role: ['Director', 'Editor', 'Cinematographer'],
-    videoUrl: '/videos/fortuner.mp4',
+    videoUrl: '/videos/toyota-hybrid.mp4',
     thumbnailUrl: '/images/projects/toyato.jpeg',
     beforeAfter: {
       before: '/images/projects/toyota-before.jpg',
