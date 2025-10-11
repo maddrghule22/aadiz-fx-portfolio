@@ -87,6 +87,47 @@ const projects = [
     year: 2023,
     featured: true,
     duration: '2:10'
+  },
+  {
+    id: uuidv4(),
+    title: 'Fashion Editorial',
+    description: 'Stylish fashion video featuring contemporary fashion with artistic cinematography and color grading.',
+    category: 'commercial',
+    client: 'Fashion Brand',
+    role: ['Director', 'Editor', 'Colorist'],
+    videoUrl: '/videos/fashion-edit.mp4',
+    thumbnailUrl: '/images/projects/fashion-thumbnail.jpg',
+    tags: ['Fashion', 'Editorial', 'Style', 'Color Grading'],
+    year: 2024,
+    featured: true,
+    duration: '2:00'
+  },
+  {
+    id: uuidv4(),
+    title: 'Toyota Fortuner Campaign',
+    description: 'Rugged SUV commercial highlighting the Toyota Fortuner\'s capabilities with adventure-focused storytelling.',
+    category: 'commercial',
+    client: 'Toyota',
+    role: ['Director', 'Editor', 'Cinematographer'],
+    videoUrl: '/videos/toyota-hybrid.mp4',
+    thumbnailUrl: '/images/projects/fortuner-thumbnail.jpg',
+    tags: ['Automotive', 'SUV', 'Adventure', 'Commercial'],
+    year: 2024,
+    featured: false,
+    duration: '1:45'
+  },
+  {
+    id: uuidv4(),
+    title: 'Zen Creative Project',
+    description: 'Artistic and meditative video project exploring themes of balance and tranquility through visual storytelling.',
+    category: 'short-film',
+    role: ['Director', 'Editor', 'Colorist'],
+    videoUrl: '/videos/zen.mp4',
+    thumbnailUrl: '/images/projects/zen-thumbnail.jpg',
+    tags: ['Artistic', 'Creative', 'Meditation', 'Visual Story'],
+    year: 2024,
+    featured: true,
+    duration: '2:30'
   }
 ];
 

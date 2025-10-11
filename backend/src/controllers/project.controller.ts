@@ -6,22 +6,29 @@ import { clearCache } from '../middleware/cache.middleware';
 // Get all projects
 export const getAllProjects = async (req: Request, res: Response) => {
   try {
-    // Check cache first
-    const cacheKey = 'all_projects';
-    const cachedData = cache.get(cacheKey);
+    // Check if bypassCache query parameter is present
+    const bypassCache = req.query.bypassCache === 'true';
     
-    if (cachedData) {
-      return res.status(200).json({
-        success: true,
-        data: cachedData,
-        fromCache: true
-      });
+    // Check cache first (unless bypassing)
+    if (!bypassCache) {
+      const cacheKey = 'all_projects';
+      const cachedData = cache.get(cacheKey);
+      
+      if (cachedData) {
+        return res.status(200).json({
+          success: true,
+          data: cachedData,
+          fromCache: true
+        });
+      }
     }
 
     const projects = await Project.find().sort({ year: -1, createdAt: -1 });
     
-    // Cache the result for 5 minutes
-    cache.set(cacheKey, projects, 5 * 60 * 1000);
+    // Cache the result for 5 minutes (unless bypassing)
+    if (!bypassCache) {
+      cache.set('all_projects', projects, 5 * 60 * 1000);
+    }
     
     return res.status(200).json({
       success: true,
@@ -40,22 +47,29 @@ export const getAllProjects = async (req: Request, res: Response) => {
 // Get featured projects
 export const getFeaturedProjects = async (req: Request, res: Response) => {
   try {
-    // Check cache first
-    const cacheKey = 'featured_projects';
-    const cachedData = cache.get(cacheKey);
+    // Check if bypassCache query parameter is present
+    const bypassCache = req.query.bypassCache === 'true';
     
-    if (cachedData) {
-      return res.status(200).json({
-        success: true,
-        data: cachedData,
-        fromCache: true
-      });
+    // Check cache first (unless bypassing)
+    if (!bypassCache) {
+      const cacheKey = 'featured_projects';
+      const cachedData = cache.get(cacheKey);
+      
+      if (cachedData) {
+        return res.status(200).json({
+          success: true,
+          data: cachedData,
+          fromCache: true
+        });
+      }
     }
 
     const projects = await Project.find({ featured: true }).sort({ year: -1, createdAt: -1 });
     
-    // Cache the result for 5 minutes
-    cache.set(cacheKey, projects, 5 * 60 * 1000);
+    // Cache the result for 5 minutes (unless bypassing)
+    if (!bypassCache) {
+      cache.set('featured_projects', projects, 5 * 60 * 1000);
+    }
     
     return res.status(200).json({
       success: true,
@@ -64,6 +78,28 @@ export const getFeaturedProjects = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Error fetching featured projects:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+};
+
+// Get project count
+export const getProjectCount = async (req: Request, res: Response) => {
+  try {
+    const totalProjects = await Project.countDocuments();
+    const featuredProjects = await Project.countDocuments({ featured: true });
+    
+    return res.status(200).json({
+      success: true,
+      data: {
+        total: totalProjects,
+        featured: featuredProjects
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching project count:', error);
     return res.status(500).json({
       success: false,
       message: 'Internal server error'

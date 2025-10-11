@@ -16,7 +16,9 @@ const apiCallWithFallback = async <T>(apiCall: () => Promise<T>, fallbackData: T
 export const fetchProjects = async () => {
   return apiCallWithFallback(
     async () => {
-      const response = await fetch(`${API_BASE_URL}/projects`);
+      const response = await fetch(`${API_BASE_URL}/projects`, { 
+        next: { revalidate: 60 } // Revalidate every 60 seconds
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -29,7 +31,7 @@ export const fetchProjects = async () => {
         title: "BMW X1 Commercial",
         category: "Automotive",
         description: "High-end automotive commercial showcasing the BMW X1 with cinematic visuals and dynamic camera movements.",
-        videoUrl: "/videos/bmw-x1.mp4",
+        videoUrl: "/videos/bmw-m-series.mp4",
         thumbnailUrl: "/images/projects/BMW.jpeg",
         year: 2024
       },
@@ -38,12 +40,12 @@ export const fetchProjects = async () => {
         title: "Ducati Xdiavel Showcase",
         category: "Motorcycle",
         description: "Powerful motorcycle showcase featuring the Ducati Xdiavel with dramatic lighting and precision shots.",
-        videoUrl: "/videos/ducati-xdiavel.mp4",
+        videoUrl: "/videos/ducati-desert-x.mp4",
         thumbnailUrl: "/images/projects/Ducati.jpeg",
         year: 2024
       },
       {
-        id: 'fashion-editorial',
+        id: 'fashion-edit',
         title: "Fashion Editorial",
         category: "Fashion",
         description: "Stylish fashion video featuring contemporary fashion with artistic cinematography and advanced color grading.",
@@ -52,22 +54,31 @@ export const fetchProjects = async () => {
         year: 2024
       },
       {
-        id: 'toyota-fortuner',
+        id: 'fortuner-commercial',
         title: "Toyota Fortuner Campaign",
         category: "Automotive",
         description: "Rugged SUV commercial highlighting the Toyota Fortuner's capabilities with adventure-focused storytelling.",
-        videoUrl: "/videos/fortuner.mp4",
+        videoUrl: "/videos/toyota-hybrid.mp4",
         thumbnailUrl: "/images/projects/toyato.jpeg",
-        year: 2023
+        year: 2024
       },
       {
-        id: 'ktm-performance',
+        id: 'ktm-showcase',
         title: "KTM Performance Video",
         category: "Motorcycle",
         description: "High-energy motorcycle showcase featuring KTM bikes with fast-paced editing and dynamic angles.",
         videoUrl: "/videos/ktm-2.mp4",
         thumbnailUrl: "/images/projects/KTM.png",
-        year: 2023
+        year: 2024
+      },
+      {
+        id: 'yamaha-fz',
+        title: "Yamaha FZ Promotional",
+        category: "Motorcycle",
+        description: "Sleek promotional video for Yamaha FZ featuring urban environments and modern cinematography.",
+        videoUrl: "/videos/yamaha-fz.mp4",
+        thumbnailUrl: "/images/projects/yamaha.jpeg",
+        year: 2024
       },
       {
         id: 'zen-creative',
@@ -76,7 +87,7 @@ export const fetchProjects = async () => {
         description: "Artistic and meditative video project exploring themes of balance and tranquility through visual storytelling.",
         videoUrl: "/videos/zen.mp4",
         thumbnailUrl: "/images/projects/zen-thumbnail.jpg",
-        year: 2022
+        year: 2024
       }
     ] // Fallback data
   );
@@ -85,7 +96,9 @@ export const fetchProjects = async () => {
 export const fetchFeaturedProjects = async () => {
   return apiCallWithFallback(
     async () => {
-      const response = await fetch(`${API_BASE_URL}/projects/featured`);
+      const response = await fetch(`${API_BASE_URL}/projects/featured`, { 
+        next: { revalidate: 60 } // Revalidate every 60 seconds
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -98,7 +111,7 @@ export const fetchFeaturedProjects = async () => {
         title: "BMW X1 Commercial",
         category: "Automotive",
         description: "High-end automotive commercial showcasing the BMW X1 with cinematic visuals and dynamic camera movements.",
-        videoUrl: "/videos/bmw-x1.mp4",
+        videoUrl: "/videos/bmw-m-series.mp4",
         thumbnailUrl: "/images/projects/BMW.jpeg",
         year: 2024
       },
@@ -107,18 +120,27 @@ export const fetchFeaturedProjects = async () => {
         title: "Ducati Xdiavel Showcase",
         category: "Motorcycle",
         description: "Powerful motorcycle showcase featuring the Ducati Xdiavel with dramatic lighting and precision shots.",
-        videoUrl: "/videos/ducati-xdiavel.mp4",
+        videoUrl: "/videos/ducati-desert-x.mp4",
         thumbnailUrl: "/images/projects/Ducati.jpeg",
         year: 2024
       },
       {
-        id: 'ktm-performance',
-        title: "KTM Performance Video",
-        category: "Motorcycle",
-        description: "High-energy motorcycle showcase featuring KTM bikes with fast-paced editing and dynamic angles.",
-        videoUrl: "/videos/ktm-2.mp4",
-        thumbnailUrl: "/images/projects/KTM.png",
-        year: 2023
+        id: 'fashion-edit',
+        title: "Fashion Editorial",
+        category: "Fashion",
+        description: "Stylish fashion video featuring contemporary fashion with artistic cinematography and advanced color grading.",
+        videoUrl: "/videos/fashion-edit.mp4",
+        thumbnailUrl: "/images/projects/Fashion studio.jpeg",
+        year: 2024
+      },
+      {
+        id: 'zen-creative',
+        title: "Zen Creative Project",
+        category: "Experimental",
+        description: "Artistic and meditative video project exploring themes of balance and tranquility through visual storytelling.",
+        videoUrl: "/videos/zen.mp4",
+        thumbnailUrl: "/images/projects/zen-thumbnail.jpg",
+        year: 2024
       }
     ] // Fallback data
   );
@@ -127,7 +149,9 @@ export const fetchFeaturedProjects = async () => {
 export const fetchTestimonials = async () => {
   return apiCallWithFallback(
     async () => {
-      const response = await fetch(`${API_BASE_URL}/data/testimonials`);
+      const response = await fetch(`${API_BASE_URL}/data/testimonials`, { 
+        next: { revalidate: 60 } // Revalidate every 60 seconds
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -169,7 +193,9 @@ export const fetchTestimonials = async () => {
 export const fetchClients = async () => {
   return apiCallWithFallback(
     async () => {
-      const response = await fetch(`${API_BASE_URL}/data/clients`);
+      const response = await fetch(`${API_BASE_URL}/data/clients`, { 
+        next: { revalidate: 60 } // Revalidate every 60 seconds
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -193,7 +219,9 @@ export const fetchClients = async () => {
 export const fetchServices = async () => {
   return apiCallWithFallback(
     async () => {
-      const response = await fetch(`${API_BASE_URL}/data/services`);
+      const response = await fetch(`${API_BASE_URL}/data/services`, { 
+        next: { revalidate: 60 } // Revalidate every 60 seconds
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

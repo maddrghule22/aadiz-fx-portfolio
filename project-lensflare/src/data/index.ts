@@ -32,7 +32,7 @@ export const projects: Project[] = [
     category: 'commercial',
     client: 'Ducati',
     role: ['Director', 'Editor', 'VFX Artist'],
-    videoUrl: '/videos/ducati-xdiavel.mp4',
+    videoUrl: '/videos/ducati-desert-x.mp4',
     thumbnailUrl: '/images/projects/Ducati.jpeg',
     beforeAfter: {
       before: '/images/projects/ducati-1.jpg',

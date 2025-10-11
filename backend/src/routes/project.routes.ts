@@ -4,6 +4,7 @@ import {
   getFeaturedProjects,
   getProjectById,
   getProjectsByCategory,
+  getProjectCount,
   createProject,
   updateProject,
   deleteProject
@@ -18,6 +19,9 @@ router.route('/')
 
 router.route('/featured')
   .get(getFeaturedProjects);
+
+router.route('/count')
+  .get(getProjectCount);
 
 router.route('/category/:category')
   .get(getProjectsByCategory);

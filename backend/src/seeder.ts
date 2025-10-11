@@ -31,7 +31,7 @@ const projects = [
     category: 'commercial',
     client: 'Ducati',
     role: ['Director', 'Editor', 'VFX Artist'],
-    videoUrl: '/videos/ducati-xdiavel.mp4',
+    videoUrl: '/videos/ducati-desert-x.mp4',
     thumbnailUrl: '/images/projects/ducati-thumbnail.jpg',
     tags: ['Motorcycle', 'Commercial', 'Dynamic', 'Performance'],
     year: 2024,

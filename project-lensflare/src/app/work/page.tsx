@@ -58,7 +58,7 @@ export default function WorkPage() {
             title: "BMW X1 Commercial",
             category: "Automotive",
             description: "High-end automotive commercial showcasing the BMW X1 with cinematic visuals and dynamic camera movements.",
-            videoUrl: "/videos/bmw-x1.mp4",
+            videoUrl: "/videos/bmw-m-series.mp4",
             thumbnailUrl: "/images/projects/bmw-x1-thumbnail.jpg",
             year: 2024
           },
@@ -97,6 +97,15 @@ export default function WorkPage() {
             videoUrl: "/videos/ktm-2.mp4",
             thumbnailUrl: "/images/projects/KTM.png",
             year: 2023
+          },
+          {
+            id: 'yamaha-fz',
+            title: "Yamaha FZ Promotional",
+            category: "Motorcycle",
+            description: "Sleek promotional video for Yamaha FZ featuring urban environments and modern cinematography.",
+            videoUrl: "/videos/yamaha-fz.mp4",
+            thumbnailUrl: "/images/projects/yamaha-thumbnail.jpg",
+            year: 2024
           },
           {
             id: 'zen-creative',
