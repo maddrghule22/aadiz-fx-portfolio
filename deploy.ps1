@@ -1,46 +1,46 @@
 # PowerShell script to deploy Aadiz.FX portfolio website
 
-Write-Host "🚀 Starting Aadiz.FX Deployment Process" -ForegroundColor Green
+Write-Host "Starting Aadiz.FX Deployment Process" -ForegroundColor Green
 
 # Check if required tools are installed
-Write-Host "🔍 Checking prerequisites..." -ForegroundColor Yellow
+Write-Host "Checking prerequisites..." -ForegroundColor Yellow
 
 # Check Node.js
 try {
     $nodeVersion = node --version
-    Write-Host "✅ Node.js $nodeVersion found" -ForegroundColor Green
+    Write-Host "[SUCCESS] Node.js $nodeVersion found" -ForegroundColor Green
 } catch {
-    Write-Host "❌ Node.js not found. Please install Node.js v18 or higher." -ForegroundColor Red
+    Write-Host "[ERROR] Node.js not found. Please install Node.js v18 or higher." -ForegroundColor Red
     exit 1
 }
 
 # Check MongoDB
 try {
     $mongoVersion = mongod --version
-    Write-Host "✅ MongoDB found" -ForegroundColor Green
+    Write-Host "[SUCCESS] MongoDB found" -ForegroundColor Green
 } catch {
-    Write-Host "⚠️  MongoDB not found. You'll need to install MongoDB or use MongoDB Atlas." -ForegroundColor Yellow
+    Write-Host "[WARNING] MongoDB not found. You'll need to install MongoDB or use MongoDB Atlas." -ForegroundColor Yellow
 }
 
 # Build backend
-Write-Host "🏗️  Building backend..." -ForegroundColor Yellow
+Write-Host "Building backend..." -ForegroundColor Yellow
 Set-Location -Path "backend"
 npm run build
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "✅ Backend built successfully" -ForegroundColor Green
+    Write-Host "[SUCCESS] Backend built successfully" -ForegroundColor Green
 } else {
-    Write-Host "❌ Backend build failed" -ForegroundColor Red
+    Write-Host "[ERROR] Backend build failed" -ForegroundColor Red
     exit 1
 }
 
 # Build frontend
-Write-Host "🏗️  Building frontend..." -ForegroundColor Yellow
+Write-Host "Building frontend..." -ForegroundColor Yellow
 Set-Location -Path "../project-lensflare"
 npm run build
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "✅ Frontend built successfully" -ForegroundColor Green
+    Write-Host "[SUCCESS] Frontend built successfully" -ForegroundColor Green
 } else {
-    Write-Host "❌ Frontend build failed" -ForegroundColor Red
+    Write-Host "[ERROR] Frontend build failed" -ForegroundColor Red
     exit 1
 }
 
@@ -48,7 +48,7 @@ if ($LASTEXITCODE -eq 0) {
 Set-Location -Path ".."
 
 # Summary
-Write-Host "`n✅ Deployment preparation completed successfully!" -ForegroundColor Green
+Write-Host "`n[SUCCESS] Deployment preparation completed successfully!" -ForegroundColor Green
 Write-Host "Next steps:" -ForegroundColor Yellow
 Write-Host "1. Configure your environment variables in backend/.env and project-lensflare/.env.local" -ForegroundColor Yellow
 Write-Host "2. Start MongoDB (if using local installation)" -ForegroundColor Yellow
