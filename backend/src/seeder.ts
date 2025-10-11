@@ -13,7 +13,7 @@ const projects = [
   {
     id: 'bmw-x1-commercial',
     title: 'BMW X1 Commercial',
-    description: 'High-end automotive commercial showcasing the BMW X1 with cinematic visuals and dynamic camera movements.',
+    description: 'BMW X-series',
     category: 'commercial',
     client: 'BMW',
     role: ['Director', 'Editor', 'Cinematographer'],

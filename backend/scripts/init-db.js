@@ -23,7 +23,7 @@ const projects = [
   {
     id: uuidv4(),
     title: 'BMW M Series Commercial',
-    description: 'High-octane commercial showcasing the power and precision of BMW\'s M Series lineup with stunning CGI and motion graphics.',
+    description: 'BMW X-series',
     category: 'commercial',
     client: 'BMW',
     role: ['Director', 'Cinematographer'],
@@ -72,21 +72,6 @@ const projects = [
     year: 2023,
     featured: true,
     duration: '3:15'
-  },
-  {
-    id: uuidv4(),
-    title: 'Audi e-tron GT Reveal',
-    description: 'Futuristic reveal of Audi\'s all-electric performance sedan with stunning VFX and cyberpunk aesthetics.',
-    category: 'commercial',
-    client: 'Audi',
-    role: ['Director', 'VFX Artist'],
-    videoUrl: '/videos/audi-etron.mp4',
-    thumbnailUrl: '/images/projects/audi-etron.jpg',
-    images: ['/images/projects/audi-1.jpg', '/images/projects/audi-2.jpg'],
-    tags: ['Electric', 'Luxury', 'CGI'],
-    year: 2023,
-    featured: true,
-    duration: '2:10'
   },
   {
     id: uuidv4(),

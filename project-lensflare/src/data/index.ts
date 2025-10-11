@@ -5,7 +5,7 @@ export const projects: Project[] = [
   {
     id: 'bmw-x1-commercial',
     title: 'BMW X1 Commercial',
-    description: 'High-end automotive commercial showcasing the BMW X1 with cinematic visuals and dynamic camera movements. This project won the Best Automotive Commercial Award at the 2024 Global Cinematography Awards.',
+    description: 'BMW X-series',
     category: 'commercial',
     client: 'BMW',
     role: ['Director', 'Editor', 'Cinematographer'],
