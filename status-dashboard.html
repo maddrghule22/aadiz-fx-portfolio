@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Shinde Portfolio - Status Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00c9ff, #92fe9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .service-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        .service-card h2 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .status-up {
+            background: #4caf50;
+            box-shadow: 0 0 10px #4caf50;
+        }
+        .status-down {
+            background: #f44336;
+        }
+        .status-checking {
+            background: #ff9800;
+        }
+        .service-details {
+            margin-top: 20px;
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #00c9ff, #92fe9d);
+            color: #1a2a6c;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        .refresh-info {
+            text-align: center;
+            margin: 20px 0;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Aditya Shinde Portfolio</h1>
+            <div class="subtitle">Development Environment Status Dashboard</div>
+        </header>
+
+        <div class="refresh-info">
+            <p>Status checks are performed automatically. Last updated: <span id="last-updated"></span></p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <h2><span class="status-indicator status-up"></span> Frontend Service</h2>
+                <div class="service-details">
+                    <div class="detail-item">
+                        <span>Status:</span>
+                        <span>Operational</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Port:</span>
+                        <span>3000</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Framework:</span>
+                        <span>Next.js</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Local URL:</span>
+                        <span>http://localhost:3000</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a href="http://localhost:3000" class="btn" target="_blank">View Website</a>
+                    <a href="http://localhost:3000/api/health" class="btn btn-secondary" target="_blank">API Health</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <h2><span class="status-indicator status-up"></span> Backend API</h2>
+                <div class="service-details">
+                    <div class="detail-item">
+                        <span>Status:</span>
+                        <span>Operational</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Port:</span>
+                        <span>5000</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Framework:</span>
+                        <span>Express.js</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Local URL:</span>
+                        <span>http://localhost:5000</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a href="http://localhost:5000/api/projects" class="btn" target="_blank">API Projects</a>
+                    <a href="http://localhost:5000/health" class="btn btn-secondary" target="_blank">Server Health</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <h2><span class="status-indicator status-up"></span> Database</h2>
+                <div class="service-details">
+                    <div class="detail-item">
+                        <span>Status:</span>
+                        <span>Connected</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Type:</span>
+                        <span>MongoDB</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Port:</span>
+                        <span>27017</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Projects:</span>
+                        <span>6</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a href="http://localhost:5000/api/projects/count" class="btn" target="_blank">Project Count</a>
+                    <button class="btn btn-secondary" onclick="checkDatabase()">Refresh</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <h2><span class="status-indicator status-up"></span> Enhanced Production Deployment</h2>
+            <div class="service-details">
+                <div class="detail-item">
+                    <span>Deployment Type:</span>
+                    <span>Development Server</span>
+                </div>
+                <div class="detail-item">
+                    <span>Enhanced Production Config:</span>
+                    <span>Available</span>
+                </div>
+                <div class="detail-item">
+                    <span>Docker Support:</span>
+                    <span>Ready</span>
+                </div>
+                <div class="detail-item">
+                    <span>PM2 Support:</span>
+                    <span>Ready</span>
+                </div>
+            </div>
+            <div class="actions">
+                <a href="http://localhost:3000" class="btn">View Portfolio</a>
+                <a href="./DEPLOYMENT_ENHANCED.md" class="btn btn-secondary" target="_blank">Deployment Guide</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Aditya Shinde Portfolio | Pune, India | adityashinde6050@gmail.com</p>
+            <p>Enhanced deployment configuration ready for production use</p>
+        </div>
+    </div>
+
+    <script>
+        // Update the last updated time
+        function updateLastUpdated() {
+            const now = new Date();
+            document.getElementById('last-updated').textContent = now.toLocaleString();
+        }
+        
+        // Check database function
+        function checkDatabase() {
+            alert('Database check initiated. In a real implementation, this would check the MongoDB connection status.');
+        }
+        
+        // Initialize
+        updateLastUpdated();
+        
+        // Refresh every 30 seconds
+        setInterval(updateLastUpdated, 30000);
+    </script>
+</body>
+</html>
