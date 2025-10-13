@@ -1,27 +1,43 @@
 # PowerShell script to launch Aditya Shinde Portfolio preview and status dashboard
 
+param(
+    [Parameter(Mandatory=$false)]
+    [switch]$prod = $false
+)
+
 Write-Host "Launching Aditya Shinde Portfolio Preview" -ForegroundColor Green
 
-# Wait a moment for services to fully start
-Start-Sleep -Seconds 3
-
-# Check if required ports are available
-Write-Host "Checking service status..." -ForegroundColor Yellow
-
-# Check backend (port 5000)
-$backendPort = Get-NetTCPConnection -LocalPort 5000 -ErrorAction SilentlyContinue
-if ($backendPort) {
-    Write-Host "[INFO] Backend service is running on port 5000" -ForegroundColor Green
+if ($prod) {
+    Write-Host "Starting in Production Mode..." -ForegroundColor Yellow
+    # Build and start production servers
+    Set-Location -Path "c:\Users\darsh\OneDrive\Desktop\aadiz.fx\project-lensflare"
+    npm run build
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "[ERROR] Frontend build failed" -ForegroundColor Red
+        exit 1
+    }
+    
+    # Start backend
+    Start-Process -FilePath "powershell" -ArgumentList "-Command", "cd c:\Users\darsh\OneDrive\Desktop\aadiz.fx\backend; npm run prod" -WindowStyle Hidden
+    
+    # Start frontend
+    Start-Process -FilePath "powershell" -ArgumentList "-Command", "cd c:\Users\darsh\OneDrive\Desktop\aadiz.fx\project-lensflare; npm start" -WindowStyle Hidden
+    
+    # Wait for services to start
+    Start-Sleep -Seconds 5
+    
+    Write-Host "[INFO] Production servers started" -ForegroundColor Green
 } else {
-    Write-Host "[WARNING] Backend service is not running on port 5000" -ForegroundColor Yellow
-}
-
-# Check frontend (port 3000)
-$frontendPort = Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue
-if ($frontendPort) {
-    Write-Host "[INFO] Frontend service is running on port 3000" -ForegroundColor Green
-} else {
-    Write-Host "[WARNING] Frontend service is not running on port 3000" -ForegroundColor Yellow
+    Write-Host "Starting in Development Mode..." -ForegroundColor Yellow
+    # Start development servers
+    Start-Process -FilePath "powershell" -ArgumentList "-Command", "cd c:\Users\darsh\OneDrive\Desktop\aadiz.fx\backend; npm run dev" -WindowStyle Hidden
+    
+    Start-Process -FilePath "powershell" -ArgumentList "-Command", "cd c:\Users\darsh\OneDrive\Desktop\aadiz.fx\project-lensflare; npm run dev" -WindowStyle Hidden
+    
+    # Wait for services to start
+    Start-Sleep -Seconds 5
+    
+    Write-Host "[INFO] Development servers started" -ForegroundColor Green
 }
 
 # Open portfolio website in default browser
@@ -30,12 +46,18 @@ Start-Process "http://localhost:3000"
 
 # Open status dashboard in default browser
 Write-Host "Opening status dashboard..." -ForegroundColor Yellow
-Start-Process "file://$($pwd)/status-dashboard.html"
+$dashboardPath = Join-Path $pwd "status-dashboard.html"
+Start-Process "file://$($dashboardPath.Replace('\', '/'))"
 
 # Summary
 Write-Host "`n[SUCCESS] Preview environment launched!" -ForegroundColor Green
+if ($prod) {
+    Write-Host "Mode: Production" -ForegroundColor Cyan
+} else {
+    Write-Host "Mode: Development" -ForegroundColor Cyan
+}
 Write-Host "Portfolio Website: http://localhost:3000" -ForegroundColor Cyan
-Write-Host "Status Dashboard: file://$($pwd)/status-dashboard.html" -ForegroundColor Cyan
+Write-Host "Status Dashboard: file://$($dashboardPath.Replace('\', '/'))" -ForegroundColor Cyan
 
 Write-Host "`nEnhanced deployment files created:" -ForegroundColor Yellow
 Write-Host "- Production Docker configuration: docker-compose.production.yml" -ForegroundColor White
@@ -48,3 +70,4 @@ Write-Host "- Backup script: backup.ps1" -ForegroundColor White
 Write-Host "- Enhanced deployment guide: DEPLOYMENT_ENHANCED.md" -ForegroundColor White
 
 Write-Host "`nFor production deployment, follow the DEPLOYMENT_ENHANCED.md guide." -ForegroundColor Yellow
+Write-Host "To stop servers, close the PowerShell windows or run taskkill commands." -ForegroundColor Yellow

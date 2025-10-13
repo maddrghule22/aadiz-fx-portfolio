@@ -2,10 +2,17 @@
 
 import { useEffect, useState } from 'react'
 
+// Define types for our data
+type Project = {
+  id: string;
+  title: string;
+  featured: boolean;
+}
+
 export default function ApiTestPage() {
-  const [projects, setProjects] = useState([])
+  const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -14,7 +21,12 @@ export default function ApiTestPage() {
         const data = await response.json()
         setProjects(data.data)
       } catch (err) {
-        setError(err.message)
+        // Type check the error before accessing its properties
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError('An unknown error occurred')
+        }
       } finally {
         setLoading(false)
       }
