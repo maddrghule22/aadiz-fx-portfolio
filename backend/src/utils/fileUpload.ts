@@ -1,13 +1,14 @@
-import multer from 'multer';
+import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
-const { v4: uuidv4 } = require('uuid');
+import { Request } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
 // Configure storage
 const storage = multer.diskStorage({
-  destination: (req: Express.Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => {
+  destination: (req, file, cb) => {
     cb(null, 'uploads/');
   },
-  filename: (req: Express.Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
+  filename: (req, file, cb) => {
     // Generate unique filename
     const uniqueName = `${uuidv4()}${path.extname(file.originalname)}`;
     cb(null, uniqueName);
@@ -15,7 +16,7 @@ const storage = multer.diskStorage({
 });
 
 // File filter
-const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
   // Accept images only
   if (file.mimetype.startsWith('image/')) {
     cb(null, true);

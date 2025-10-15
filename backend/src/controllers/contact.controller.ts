@@ -148,3 +148,10 @@ export const deleteContactForm = async (req: Request, res: Response) => {
     });
   }
 };
+
+export default {
+  submitContactForm,
+  getAllContactForms,
+  getContactFormById,
+  deleteContactForm
+};
